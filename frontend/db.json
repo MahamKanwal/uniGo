@@ -1,0 +1,123 @@
+{
+  "users": [
+    {
+      "id": "ba72",
+      "fullName": "Kirby Gardner",
+      "email": "sunykihyde@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "terms": true
+    },
+    {
+      "id": "0df9",
+      "fullName": "",
+      "email": "huxon@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "terms": false,
+      "remember": true
+    },
+    {
+      "id": "b1f9",
+      "fullName": "Shoshana Franco",
+      "email": "becoqefasi@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "terms": true
+    },
+    {
+      "id": "a2a6",
+      "email": "vypabed@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "remember": true
+    },
+    {
+      "id": "6f6d",
+      "fullName": "Price Campos",
+      "email": "lunuxosov@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "terms": true
+    },
+    {
+      "id": "9636",
+      "fullName": "Genevieve Sanchez",
+      "email": "setotyqe@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "terms": true
+    },
+    {
+      "id": "1dc8",
+      "fullName": "",
+      "email": "wipo@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "terms": false,
+      "remember": true
+    },
+    {
+      "id": "e9bb",
+      "fullName": "Derek Brady",
+      "email": "novonunygi@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "terms": true
+    },
+    {
+      "id": "f7bb",
+      "email": "kulominyze@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "remember": false,
+      "fullName": "Brielle Riggs",
+      "terms": true
+    },
+    {
+      "id": "90e4",
+      "email": "bugi@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "remember": false,
+      "fullName": "Harding Hays",
+      "terms": true
+    },
+    {
+      "id": "ef0e",
+      "email": "ciku@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "remember": false,
+      "fullName": "Amelia King",
+      "terms": true
+    },
+    {
+      "id": "3c31",
+      "email": "pypawu@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "remember": false,
+      "fullName": "Clinton Wright",
+      "terms": true
+    },
+    {
+      "id": "cefb",
+      "email": "kanwalmahsm@gmail.com",
+      "password": "Maham12345",
+      "remember": false,
+      "fullName": "Maham Kanwal"
+    },
+    {
+      "id": "1a29",
+      "email": "cacy@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "remember": false,
+      "fullName": "Cooper Delaney",
+      "terms": true
+    },
+    {
+      "id": "b34b",
+      "email": "maham@gmail.com",
+      "password": "Maham123",
+      "remember": false,
+      "fullName": "Maham "
+    },
+    {
+      "id": "556d",
+      "email": "jyzafevicy@mailinator.com",
+      "password": "Pa$$w0rd!",
+      "remember": false,
+      "fullName": "Sasha Petty",
+      "terms": true
+    }
+  ]
+}
