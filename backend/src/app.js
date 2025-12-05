@@ -7,7 +7,7 @@ import busRouter from "./features/bus/busRouter.js";
 // Initialize express app
 const app = express();
 // Enable CORS(cross-origin resource sharing)
-// app.use(cors());
+app.use(cors());
 //allow json object from frontend
 app.use(express.json());
 // routes
