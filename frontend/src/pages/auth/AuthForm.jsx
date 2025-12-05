@@ -138,7 +138,6 @@ const AuthForm = () => {
           cnic: undefined,
           dob: null,
           address: "",
-          age: "",
           licence: "",
           policeClearance: null,
           terms: false,
@@ -730,19 +729,23 @@ const AuthForm = () => {
                     <Col span={12}>
                       <Form.Item
                         validateStatus={
-                          formik.touched.age && formik.errors.age ? "error" : ""
+                          formik.touched.dob && formik.errors.dob ? "error" : ""
                         }
-                        help={formik.touched.age && formik.errors.age}
+                        help={formik.touched.dob && formik.errors.dob}
                         className="!mb-3"
                       >
-                        <Input
-                          prefix={<NumberOutlined className="text-gray-400" />}
-                          placeholder="Age"
-                          className="rounded-lg h-10"
-                          style={{ width: "100%" }}
-                          value={formik.values.age}
-                          onChange={(value) =>
-                            formik.setFieldValue("age", value)
+                        <DatePicker
+                          placeholder="Date of birth"
+                          className="rounded-lg w-full h-10"
+                          format="DD-MM-YYYY"
+                          value={
+                            formik.values.dob ? dayjs(formik.values.dob) : null
+                          }
+                          onChange={(date) =>
+                            formik.setFieldValue(
+                              "dob",
+                              date ? date.toISOString() : null
+                            )
                           }
                           onBlur={formik.handleBlur}
                         />
@@ -775,35 +778,6 @@ const AuthForm = () => {
                 </>
               )}
 
-              {/* Admin-specific fields */}
-              {selectedRole === "admin" && (
-                <Row gutter={12}>
-                  <Col span={24}>
-                    <Form.Item
-                      validateStatus={
-                        formik.touched.gender && formik.errors.gender
-                          ? "error"
-                          : ""
-                      }
-                      help={formik.touched.gender && formik.errors.gender}
-                      className="!mb-3"
-                    >
-                      <Select
-                        placeholder="Gender *"
-                        value={formik.values.gender}
-                        onChange={(value) =>
-                          formik.setFieldValue("gender", value)
-                        }
-                        className="rounded-lg h-10"
-                      >
-                        <Option value="male">Male</Option>
-                        <Option value="female">Female</Option>
-                        <Option value="other">Other</Option>
-                      </Select>
-                    </Form.Item>
-                  </Col>
-                </Row>
-              )}
               {/* Terms checkbox */}
               <Row>
                 <Col span={24}>
