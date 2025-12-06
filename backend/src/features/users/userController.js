@@ -17,8 +17,6 @@ export const registerUser = async (req, res, next) => {
       "cnic",
       "dob",
       "department",
-      "idImage",
-      "cnicImage",
       "phoneNumber",
       "guardianContact",
       "address",
@@ -26,8 +24,7 @@ export const registerUser = async (req, res, next) => {
     const driverFields = [
       "policeClearance",
       "age",
-      "cnic",
-      "cnicImage",
+      "cnic",,
       "licence",
       "address",
     ];
@@ -81,8 +78,6 @@ export const loginUser = async (req, res, next) => {
       dob: user.dob,
       cnic: user.cnic,
       guardianContact: user.guardianContact,
-      cnicImage: user.cnicImage,
-      idImage: user.idImage,
       token,
     },
   });

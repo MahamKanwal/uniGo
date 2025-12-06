@@ -10,14 +10,13 @@ const userApi = api.injectEndpoints({
     getUsers: builder.query({
       query: () => apiRequest("/users"),
       providesTags: (result) =>
-        result && Array.isArray(result)
+        result 
           ? [
               ...result.map(({ id }) => ({ type: "Users", id })),
               { type: "Users", id: "LIST" },
             ]
           : [{ type: "Users", id: "LIST" }],
     }),
-
     // =======================================
     // USER REGISTER / SIGNUP
     // =======================================
@@ -42,3 +41,5 @@ export const {
 } = userApi;
 
 export default userApi;
+
+

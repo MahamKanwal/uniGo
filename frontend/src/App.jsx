@@ -11,7 +11,7 @@ const App = () => {
       <Router>
         <Navbar />
         <Routes>
-          <Route path="/:formName" element={<AuthForm />} />
+          <Route path="/:formName" element={<AuthForm/>} />
         </Routes>
         <Footer />
       </Router>
