@@ -23,8 +23,8 @@ export const registerUser = async (req, res, next) => {
     ];
     const driverFields = [
       "policeClearance",
-      "age",
-      "cnic",,
+      "dob",
+      "cnic",
       "licence",
       "address",
     ];
