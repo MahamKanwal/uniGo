@@ -3,13 +3,15 @@ import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import { Footer } from "antd/es/layout/layout";
 import AuthForm from "./pages/auth/AuthForm";
-import { Bounce, ToastContainer } from "react-toastify";
+import { Slide, ToastContainer } from "react-toastify";
+import SideBar from "./components/layout/SideBar";
 
 const App = () => {
   return (
     <>
       <Router>
         <Navbar />
+        <SideBar/>
         <Routes>
           <Route path="/:formName" element={<AuthForm/>} />
         </Routes>
@@ -25,8 +27,8 @@ const App = () => {
         pauseOnFocusLoss
         draggable
         pauseOnHover
-        theme="light"
-        transition={Bounce}
+        theme="dark"
+        transition={Slide}
       />
     </>
   );
