@@ -47,7 +47,7 @@ const SideBar = () => {
           <Menu.Item icon={<InfoCircleOutlined />} key={2}>
             <NavLink to="/about">About</NavLink>
           </Menu.Item>
-          <Menu.Item icon={<UserOutlined />} key={3}>
+          <Menu.Item icon=  {<UserOutlined />} key={3}>
             <NavLink to="/student">Student</NavLink>
           </Menu.Item>
           <Menu.Item icon={<CarOutlined />} key={4}>
@@ -60,6 +60,6 @@ const SideBar = () => {
       </Sider>
     </Layout>
   );
-};
+};  
 
 export default SideBar;
