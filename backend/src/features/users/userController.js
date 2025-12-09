@@ -20,13 +20,16 @@ export const registerUser = async (req, res, next) => {
       "phoneNumber",
       "guardianContact",
       "address",
+      "age"
     ];
     const driverFields = [
       "policeClearance",
       "dob",
+      "phoneNumber",
       "cnic",
       "licence",
       "address",
+      "age"
     ];
 
     // 🔹 Step 2: Select required fields based on role

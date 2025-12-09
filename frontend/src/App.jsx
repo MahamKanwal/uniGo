@@ -11,7 +11,7 @@ const App = () => {
     <>
       <Router>
         <Navbar />
-        <SideBar/>
+        {/* <SideBar/> */}
         <Routes>
           <Route path="/:formName" element={<AuthForm/>} />
         </Routes>
