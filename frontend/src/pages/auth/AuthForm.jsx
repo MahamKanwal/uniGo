@@ -2,11 +2,11 @@ import React, { useMemo, useEffect } from "react";
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { Card, Form, Input, Button, Typography, Checkbox, Select, Row, Col, Space, InputNumber, DatePicker } from "antd";
-import { UserOutlined, LockOutlined, MailOutlined, IdcardOutlined, CarOutlined, PhoneOutlined, HomeOutlined, ContactsOutlined, EyeInvisibleOutlined, EyeTwoTone } from "@ant-design/icons";
+import {Card,Form,Input,Button,Typography,Checkbox,Select,Row,Col,Space,InputNumber,DatePicker,} from "antd";
+import {UserOutlined,LockOutlined,MailOutlined,IdcardOutlined,CarOutlined,PhoneOutlined,HomeOutlined,ContactsOutlined,EyeInvisibleOutlined,EyeTwoTone,TeamOutlined,} from "@ant-design/icons";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
-import { useLoginUserMutation, useRegisterUserMutation, } from "../../features/user/userApi";
+import {useLoginUserMutation,useRegisterUserMutation,} from "../../features/user/userApi";
 import { useDispatch } from "react-redux";
 import { getUser } from "../../features/user/userSlice";
 const { Title, Text } = Typography;
@@ -21,7 +21,14 @@ const loginSchema = Yup.object({
 const signupSchema = Yup.object({
   name: Yup.string().min(3).max(50).required(),
   email: Yup.string().email().required(),
-  password: Yup.string().min(8).max(128).matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "Password must have uppercase, lowercase & a number").required(),
+  password: Yup.string()
+    .min(8)
+    .max(128)
+    .matches(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/,
+      "Password must have uppercase, lowercase & a number"
+    )
+    .required(),
   role: Yup.string().required(),
   gender: Yup.string(),
   rollNo: Yup.string().when("role", {
@@ -32,42 +39,61 @@ const signupSchema = Yup.object({
     is: "student",
     then: (s) => s.required(),
   }),
-  phoneNumber: Yup.string().matches(/^[0-9+\-\s]+$/).required().when("role", {
-    is: "admin",
-    then: (s) => s.notRequired(),
-  }),
-  guardianContact: Yup.string().matches(/^[0-9+\-\s]+$/).notRequired().when("role", {
-    is: "student",
-    then: (s) => s.required(),
-  }),
-  cnic: Yup.number().positive().integer().required().when("role", {
-    is: "admin",
-    then: (s) => s.notRequired(),
-  }),
-  dob: Yup.string().test("dob-valid-age", "Age must be between 16 and 60 years", (val) => {
-    if (!val) return true;
-    const dob = dayjs(val);
-    const today = dayjs();
-    const age = today.diff(dob, "year");
-    return age >= 16 && age <= 60;
-  }
-  )
+  phoneNumber: Yup.string()
+    .matches(/^[0-9+\-\s]+$/)
+    .required()
+    .when("role", {
+      is: "admin",
+      then: (s) => s.notRequired(),
+    }),
+  guardianContact: Yup.string()
+    .matches(/^[0-9+\-\s]+$/)
+    .notRequired()
+    .when("role", {
+      is: "student",
+      then: (s) => s.required(),
+    }),
+  cnic: Yup.number()
+    .positive()
+    .integer()
+    .required()
+    .when("role", {
+      is: "admin",
+      then: (s) => s.notRequired(),
+    }),
+  age: Yup.number()
+    .min(16)
+    .max(60)
+    .required()
+    .when("role", {
+      is: "admin",
+      then: (s) => s.notRequired(),
+    }),
+  dob: Yup.string()
+    .test("dob-valid-age", "Age must be between 16 and 60 years", (val) => {
+      if (!val) return true;
+      const dob = dayjs(val);
+      const today = dayjs();
+      const age = today.diff(dob, "year");
+      return age >= 16 && age <= 60;
+    })
     .required()
     .when("role", {
       is: "admin",
       then: (s) => s.notRequired(),
     }),
 
-  address: Yup.string().required().when("role", {
-    is: "admin",
-    then: (s) => s.notRequired(),
-  }),
+  address: Yup.string()
+    .required()
+    .when("role", {
+      is: "admin",
+      then: (s) => s.notRequired(),
+    }),
   licence: Yup.string().when("role", {
     is: "driver",
     then: (s) => s.required(),
   }),
   policeClearance: Yup.string().nullable(),
-
 });
 
 const AuthForm = () => {
@@ -76,33 +102,37 @@ const AuthForm = () => {
   const isLogin = formName === "login";
   const navigate = useNavigate();
 
-  const [registerUser, { isLoading: registerLoading }] = useRegisterUserMutation();
+  const [registerUser, { isLoading: registerLoading }] =
+    useRegisterUserMutation();
   const [loginUser, { isLoading: loginLoading }] = useLoginUserMutation();
 
-  const initialValues = useMemo(() =>
-    isLogin
-      ? { email: "", password: "", remember: false }
-      : {
-        name: "",
-        email: "",
-        password: "",
-        role: "student",
-        gender: "male",
-        rollNo: "",
-        department: "",
-        phoneNumber: "",
-        guardianContact: "",
-        cnic: null,
-        dob: null,
-        address: "",
-        licence: "",
-        policeClearance: null,
-      },
+  const initialValues = useMemo(
+    () =>
+      isLogin
+        ? { email: "", password: "", remember: false }
+        : {
+            name: "",
+            email: "",
+            password: "",
+            role: "student",
+            gender: "male",
+            rollNo: "",
+            department: "",
+            phoneNumber: "",
+            guardianContact: "",
+            cnic: null,
+            dob: null,
+            address: "",
+            licence: "",
+            policeClearance: null,
+          },
     [isLogin]
   );
 
-  const validationSchema = useMemo(() => (isLogin ? loginSchema : signupSchema), [isLogin]);
-
+  const validationSchema = useMemo(
+    () => (isLogin ? loginSchema : signupSchema),
+    [isLogin]
+  );
 
   const onSubmit = async (values, { resetForm }) => {
     try {
@@ -142,7 +172,10 @@ const AuthForm = () => {
         dispatch(getUser(payload.user));
         toast.success(payload.message || "Registration successful!");
       } else {
-        const payload = await loginUser({ email: values.email, password: values.password }).unwrap();
+        const payload = await loginUser({
+          email: values.email,
+          password: values.password,
+        }).unwrap();
         dispatch(getUser(payload.user));
         toast.success(payload.message || "Login successful!");
       }
@@ -154,14 +187,13 @@ const AuthForm = () => {
     }
   };
 
-
-  const formik = useFormik({initialValues,validationSchema,onSubmit});
+  const formik = useFormik({ initialValues, validationSchema, onSubmit });
 
   const selectedRole = formik.values.role;
 
   useEffect(() => {
     formik.resetForm();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formName]);
 
   return (
@@ -171,9 +203,7 @@ const AuthForm = () => {
         style={{ padding: "1.5rem" }}
       >
         <div className="text-center mb-6">
-          <Title level={3} >
-            {isLogin ? "Welcome Back" : "Create Account"}
-          </Title>
+          <Title level={3}>{isLogin ? "Welcome Back" : "Create Account"}</Title>
           <Text type="secondary" className="text-sm">
             {isLogin
               ? "Enter your credentials to continue"
@@ -183,7 +213,7 @@ const AuthForm = () => {
 
         <Form layout="vertical" size="middle" onFinish={formik.handleSubmit}>
           {isLogin ? (
-            <Space orientation="vertical" size="middle" className="w-full">
+            <Space orientation="vertical" size="small" className="w-full">
               <Form.Item
                 validateStatus={
                   formik.touched.email && formik.errors.email ? "error" : ""
@@ -192,7 +222,7 @@ const AuthForm = () => {
               >
                 <Input
                   prefix={<MailOutlined className="text-gray-400" />}
-                  placeholder="Email address"
+                  placeholder="Email"
                   name="email"
                   type="email"
                   value={formik.values.email}
@@ -225,7 +255,11 @@ const AuthForm = () => {
                 />
               </Form.Item>
 
-              <Row justify="space-between" align="middle" >
+              <Row
+                justify="space-between"
+                align="middle"
+                style={{ marginBottom: 10 }}
+              >
                 <Col>
                   <Checkbox
                     name="remember"
@@ -250,11 +284,10 @@ const AuthForm = () => {
                   formik.touched.name && formik.errors.name ? "error" : ""
                 }
                 help={formik.touched.name && formik.errors.name}
-
               >
                 <Input
                   prefix={<UserOutlined />}
-                  placeholder="name"
+                  placeholder="Name"
                   name="name"
                   value={formik.values.name}
                   onChange={formik.handleChange}
@@ -270,7 +303,6 @@ const AuthForm = () => {
                       formik.touched.email && formik.errors.email ? "error" : ""
                     }
                     help={formik.touched.email && formik.errors.email}
-
                   >
                     <Input
                       prefix={<MailOutlined />}
@@ -292,7 +324,6 @@ const AuthForm = () => {
                         : ""
                     }
                     help={formik.touched.password && formik.errors.password}
-
                   >
                     <Input.Password
                       prefix={<LockOutlined />}
@@ -310,24 +341,47 @@ const AuthForm = () => {
                 </Col>
               </Row>
 
-              <Form.Item
-                validateStatus={
-                  formik.touched.role && formik.errors.role ? "error" : ""
-                }
-                help={formik.touched.role && formik.errors.role}
-
-              >
-                <Select
-                  placeholder="Role"
-                  value={formik.values.role}
-                  onChange={(val) => formik.setFieldValue("role", val)}
-                  className="rounded-lg h-10"
-                >
-                  <Option value="student">Student</Option>
-                  <Option value="driver">Driver</Option>
-                  <Option value="admin">Admin</Option>
-                </Select>
-              </Form.Item>
+              <Row gutter={12}>
+                <Col span={12}>
+                  <Form.Item
+                    validateStatus={
+                      formik.touched.role && formik.errors.role ? "error" : ""
+                    }
+                    help={formik.touched.role && formik.errors.role}
+                  >
+                    <Select
+                      placeholder="Role"
+                      value={formik.values.role}
+                      onChange={(val) => formik.setFieldValue("role", val)}
+                      className="rounded-lg h-10"
+                    >
+                      <Option value="student">Student</Option>
+                      <Option value="driver">Driver</Option>
+                      <Option value="admin">Admin</Option>
+                    </Select>
+                  </Form.Item>
+                </Col>
+                <Col span={12}>
+                  <Form.Item
+                    validateStatus={
+                      formik.touched.gender && formik.errors.gender
+                        ? "error"
+                        : ""
+                    }
+                    help={formik.touched.gender && formik.errors.gender}
+                  >
+                    <Select
+                      value={formik.values.gender}
+                      onChange={(val) => formik.setFieldValue("gender", val)}
+                      className="rounded-lg h-10"
+                    >
+                      <Option value="male">Male</Option>
+                      <Option value="female">Female</Option>
+                      <Option value="other">Other</Option>
+                    </Select>
+                  </Form.Item>
+                </Col>
+              </Row>
 
               {/* Student fields */}
               {selectedRole === "student" && (
@@ -341,7 +395,6 @@ const AuthForm = () => {
                             : ""
                         }
                         help={formik.touched.rollNo && formik.errors.rollNo}
-
                       >
                         <Input
                           prefix={<IdcardOutlined />}
@@ -365,9 +418,9 @@ const AuthForm = () => {
                         help={
                           formik.touched.department && formik.errors.department
                         }
-
                       >
                         <Input
+                          prefix={<TeamOutlined />}
                           placeholder="Department"
                           name="department"
                           value={formik.values.department}
@@ -381,24 +434,19 @@ const AuthForm = () => {
                     <Col span={8}>
                       <Form.Item
                         validateStatus={
-                          formik.touched.gender && formik.errors.gender
-                            ? "error"
-                            : ""
+                          formik.touched.age && formik.errors.age ? "error" : ""
                         }
-                        help={formik.touched.gender && formik.errors.gender}
-
+                        help={formik.touched.age && formik.errors.age}
                       >
-                        <Select
-                          value={formik.values.gender}
-                          onChange={(val) =>
-                            formik.setFieldValue("gender", val)
-                          }
+                        <Input
+                          prefix={<ScheduleOutlined />}
+                          placeholder="Age"
+                          name="age"
+                          value={formik.values.age}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
                           className="rounded-lg h-10"
-                        >
-                          <Option value="male">Male</Option>
-                          <Option value="female">Female</Option>
-                          <Option value="other">Other</Option>
-                        </Select>
+                        />
                       </Form.Item>
                     </Col>
                   </Row>
@@ -408,7 +456,7 @@ const AuthForm = () => {
                       <Form.Item
                         validateStatus={
                           formik.touched.phoneNumber &&
-                            formik.errors.phoneNumber
+                          formik.errors.phoneNumber
                             ? "error"
                             : ""
                         }
@@ -416,7 +464,6 @@ const AuthForm = () => {
                           formik.touched.phoneNumber &&
                           formik.errors.phoneNumber
                         }
-
                       >
                         <Input
                           prefix={<PhoneOutlined />}
@@ -434,7 +481,7 @@ const AuthForm = () => {
                       <Form.Item
                         validateStatus={
                           formik.touched.guardianContact &&
-                            formik.errors.guardianContact
+                          formik.errors.guardianContact
                             ? "error"
                             : ""
                         }
@@ -442,7 +489,6 @@ const AuthForm = () => {
                           formik.touched.guardianContact &&
                           formik.errors.guardianContact
                         }
-
                       >
                         <Input
                           prefix={<ContactsOutlined />}
@@ -466,7 +512,6 @@ const AuthForm = () => {
                             : ""
                         }
                         help={formik.touched.cnic && formik.errors.cnic}
-
                       >
                         <InputNumber
                           addonBefore={<IdcardOutlined />}
@@ -486,7 +531,6 @@ const AuthForm = () => {
                           formik.touched.dob && formik.errors.dob ? "error" : ""
                         }
                         help={formik.touched.dob && formik.errors.dob}
-
                       >
                         <DatePicker
                           placeholder="Date Of Birth"
@@ -516,7 +560,6 @@ const AuthForm = () => {
                         : ""
                     }
                     help={formik.touched.address && formik.errors.address}
-
                   >
                     <Input
                       prefix={<HomeOutlined />}
@@ -543,7 +586,6 @@ const AuthForm = () => {
                             : ""
                         }
                         help={formik.touched.licence && formik.errors.licence}
-
                       >
                         <Input
                           prefix={<CarOutlined />}
@@ -561,7 +603,7 @@ const AuthForm = () => {
                       <Form.Item
                         validateStatus={
                           formik.touched.policeClearance &&
-                            formik.errors.policeClearance
+                          formik.errors.policeClearance
                             ? "error"
                             : ""
                         }
@@ -569,7 +611,6 @@ const AuthForm = () => {
                           formik.touched.policeClearance &&
                           formik.errors.policeClearance
                         }
-
                       >
                         <Select
                           value={formik.values.policeClearance}
@@ -594,7 +635,6 @@ const AuthForm = () => {
                             : ""
                         }
                         help={formik.touched.cnic && formik.errors.cnic}
-
                       >
                         <InputNumber
                           addonBefore={<IdcardOutlined />}
@@ -613,7 +653,6 @@ const AuthForm = () => {
                           formik.touched.dob && formik.errors.dob ? "error" : ""
                         }
                         help={formik.touched.dob && formik.errors.dob}
-
                       >
                         <DatePicker
                           placeholder="Date Of Birth"
@@ -635,6 +674,51 @@ const AuthForm = () => {
                       </Form.Item>
                     </Col>
                   </Row>
+                  <Row gutter={12}>
+                    <Col span={12}>
+                      <Form.Item
+                        validateStatus={
+                          formik.touched.phoneNumber &&
+                          formik.errors.phoneNumber
+                            ? "error"
+                            : ""
+                        }
+                        help={
+                          formik.touched.phoneNumber &&
+                          formik.errors.phoneNumber
+                        }
+                      >
+                        <Input
+                          prefix={<PhoneOutlined />}
+                          placeholder="Phone Number"
+                          name="phoneNumber"
+                          value={formik.values.phoneNumber}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          className="rounded-lg h-10"
+                        />
+                      </Form.Item>
+                    </Col>
+
+                    <Col span={12}>
+                      <Form.Item
+                        validateStatus={
+                          formik.touched.age && formik.errors.age ? "error" : ""
+                        }
+                        help={formik.touched.age && formik.errors.age}
+                      >
+                        <Input
+                          prefix={<ScheduleOutlined />}
+                          placeholder="Age"
+                          name="age"
+                          value={formik.values.age}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          className="rounded-lg h-10"
+                        />
+                      </Form.Item>
+                    </Col>
+                  </Row>
                   <Form.Item
                     validateStatus={
                       formik.touched.address && formik.errors.address
@@ -642,7 +726,6 @@ const AuthForm = () => {
                         : ""
                     }
                     help={formik.touched.address && formik.errors.address}
-
                   >
                     <Input
                       prefix={<HomeOutlined />}
@@ -659,7 +742,7 @@ const AuthForm = () => {
             </Space>
           )}
 
-          <Form.Item >
+          <Form.Item>
             <Button
               type="primary"
               htmlType="submit"
