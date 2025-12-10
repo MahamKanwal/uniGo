@@ -1,35 +1,47 @@
 import React from "react";
-import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import { Footer } from "antd/es/layout/layout";
 import AuthForm from "./pages/auth/AuthForm";
-import { Slide, ToastContainer } from "react-toastify";
 import SideBar from "./components/layout/SideBar";
+import { useAuth } from "./hooks/useAuth";
+import Dashboard from "./pages/auth/dashboard/Dashboard";
+
+
+
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? children : <Navigate to="/login" replace />;
+};
+
+const PublicRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  return !isAuthenticated ? children : <Navigate to="/dashboard" replace />;
+};
+
 
 const App = () => {
+  const { isAuthenticated } = useAuth();
   return (
     <>
-      <Router>
-        <Navbar />
-        {/* <SideBar/> */}
-        <Routes>
-          <Route path="/:formName" element={<AuthForm/>} />
-        </Routes>
-        <Footer />
-      </Router>
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick={false}
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-        transition={Slide}
-      />
+      {
+        !isAuthenticated && <Navbar />
+      }
+      <div className="flex ">
+        {
+          isAuthenticated && <SideBar />
+        }
+        <div className="flex-1">
+          <Routes>
+            <Route path="/:formName" element={<PublicRoute><AuthForm /></PublicRoute>} />
+            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+          </Routes>
+        </div>
+      </div>
+      {
+        !isAuthenticated && <Footer />
+      }
+
     </>
   );
 };

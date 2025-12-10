@@ -15,8 +15,6 @@ export const registerUser = async (req, res, next) => {
     const studentFields = [
       "rollNo",
       "cnic",
-      "dob",
-      "department",
       "phoneNumber",
       "guardianContact",
       "address",
@@ -24,7 +22,6 @@ export const registerUser = async (req, res, next) => {
     ];
     const driverFields = [
       "policeClearance",
-      "dob",
       "phoneNumber",
       "cnic",
       "licence",
@@ -73,7 +70,6 @@ export const loginUser = async (req, res, next) => {
       name: user.name,
       email: user.email,
       role: user.role,
-      department: user.department,
       gender: user.gender,
       rollNo: user.rollNo,
       phoneNumber: user.phoneNumber,

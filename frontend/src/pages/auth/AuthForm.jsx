@@ -24,14 +24,12 @@ const signupSchema = Yup.object({
   password: Yup.string().min(8).max(128).matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "Password must have uppercase, lowercase & a number").required(),
   role: Yup.string().required(),
   gender: Yup.string(),
-  rollNo: Yup.string().when("role", {
-    is: "student",
-    then: (s) => s.required(),
-  }),
-  department: Yup.string().when("role", {
-    is: "student",
-    then: (s) => s.required(),
-  }),
+  rollNo: Yup.string().matches(/^\d{2}\/[A-Z]{2,3}\/2k\d{2}$/, "Roll No must be like 00/IT/2k25")
+    .when("role", {
+      is: "student",
+      then: (s) => s.required(),
+    }),
+
   phoneNumber: Yup.string().matches(/^[0-9+\-\s]+$/).required().when("role", {
     is: "admin",
     then: (s) => s.notRequired(),
@@ -40,10 +38,16 @@ const signupSchema = Yup.object({
     is: "student",
     then: (s) => s.required(),
   }),
-  cnic: Yup.number().positive().integer().required().when("role", {
-    is: "admin",
-    then: (s) => s.notRequired(),
-  }),
+  cnic: Yup.string()
+    .matches(
+      /^\d{5}-\d{7}-\d{1}$/,
+      "CNIC must be like 12345-1234567-1"
+    )
+    .when("role", {
+      is: (role) => role === "student" || role === "driver",
+      then: (s) => s.required("CNIC is required"),
+    }),
+
   dob: Yup.string().test("dob-valid-age", "Age must be between 16 and 60 years", (val) => {
     if (!val) return true;
     const dob = dayjs(val);
@@ -62,10 +66,16 @@ const signupSchema = Yup.object({
     is: "admin",
     then: (s) => s.notRequired(),
   }),
-  licence: Yup.string().when("role", {
-    is: "driver",
-    then: (s) => s.required(),
-  }),
+  licence: Yup.string()
+    .matches(
+      /^[A-Z]{3}-\d{6}$/,
+      "Licence must be like KHI-123456"
+    )
+    .when("role", {
+      is: "driver",
+      then: (s) => s.required("License is required"),
+    }),
+
   policeClearance: Yup.string().nullable(),
 
 });
@@ -89,7 +99,6 @@ const AuthForm = () => {
         role: "student",
         gender: "male",
         rollNo: "",
-        department: "",
         phoneNumber: "",
         guardianContact: "",
         cnic: null,
@@ -121,10 +130,9 @@ const AuthForm = () => {
           password: values.password,
           role: values.role,
           gender: values.gender,
-          ...(values.age !== undefined && { age: values.age, dob: values.dob }),
+          ...(values.age !== undefined && { age: values.age }),
           ...(values.role === "student" && {
             rollNo: values.rollNo,
-            department: values.department,
             phoneNumber: values.phoneNumber,
             guardianContact: values.guardianContact,
             cnic: values.cnic,
@@ -155,13 +163,13 @@ const AuthForm = () => {
   };
 
 
-  const formik = useFormik({initialValues,validationSchema,onSubmit});
+  const formik = useFormik({ initialValues, validationSchema, onSubmit });
 
   const selectedRole = formik.values.role;
 
   useEffect(() => {
     formik.resetForm();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formName]);
 
   return (
@@ -333,7 +341,7 @@ const AuthForm = () => {
               {selectedRole === "student" && (
                 <>
                   <Row gutter={12}>
-                    <Col span={8}>
+                    <Col span={12}>
                       <Form.Item
                         validateStatus={
                           formik.touched.rollNo && formik.errors.rollNo
@@ -345,7 +353,7 @@ const AuthForm = () => {
                       >
                         <Input
                           prefix={<IdcardOutlined />}
-                          placeholder="Roll No"
+                          placeholder="00/dept/year"
                           name="rollNo"
                           value={formik.values.rollNo}
                           onChange={formik.handleChange}
@@ -355,30 +363,9 @@ const AuthForm = () => {
                       </Form.Item>
                     </Col>
 
-                    <Col span={8}>
-                      <Form.Item
-                        validateStatus={
-                          formik.touched.department && formik.errors.department
-                            ? "error"
-                            : ""
-                        }
-                        help={
-                          formik.touched.department && formik.errors.department
-                        }
 
-                      >
-                        <Input
-                          placeholder="Department"
-                          name="department"
-                          value={formik.values.department}
-                          onChange={formik.handleChange}
-                          onBlur={formik.handleBlur}
-                          className="rounded-lg h-10"
-                        />
-                      </Form.Item>
-                    </Col>
 
-                    <Col span={8}>
+                    <Col span={12}>
                       <Form.Item
                         validateStatus={
                           formik.touched.gender && formik.errors.gender
@@ -397,7 +384,6 @@ const AuthForm = () => {
                         >
                           <Option value="male">Male</Option>
                           <Option value="female">Female</Option>
-                          <Option value="other">Other</Option>
                         </Select>
                       </Form.Item>
                     </Col>
@@ -468,13 +454,17 @@ const AuthForm = () => {
                         help={formik.touched.cnic && formik.errors.cnic}
 
                       >
-                        <InputNumber
-                          addonBefore={<IdcardOutlined />}
-                          placeholder="CNIC Number"
+                          <InputNumber
+
+                            // addonBefore={<IdcardOutlined />}
+                          placeholder="12345-1234567-1"
                           className="rounded-lg h-10"
                           style={{ width: "100%" }}
                           value={formik.values.cnic}
-                          onChange={(val) => formik.setFieldValue("cnic", val)}
+                            onChange={(e) =>
+                              formik.setFieldValue("cnic", e.target.value.toUpperCase())
+                            }
+
                           onBlur={() => formik.setFieldTouched("cnic", true)}
                         />
                       </Form.Item>
@@ -550,7 +540,10 @@ const AuthForm = () => {
                           placeholder="License Number"
                           name="licence"
                           value={formik.values.licence}
-                          onChange={formik.handleChange}
+                            onChange={(e) =>
+                              formik.setFieldValue("licence", e.target.value.toUpperCase())
+                            }
+
                           onBlur={formik.handleBlur}
                           className="rounded-lg h-10"
                         />
