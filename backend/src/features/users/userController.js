@@ -11,7 +11,7 @@ export const registerUser = async (req, res, next) => {
     const data = req.body;
 
     // 🔹 Step 1: Define required fields dynamically
-    const commonFields = ["name", "email", "password", "role"];
+    const commonFields = ["name", "email", "password", "role", "gender"];
     const studentFields = [
       "rollNo",
       "cnic",
