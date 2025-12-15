@@ -24,6 +24,7 @@
     "react-redux": "^9.2.0",
     "react-router-dom": "^7.10.0",
     "react-toastify": "^11.0.5",
+    "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.17",
     "yup": "^1.7.1"
   },

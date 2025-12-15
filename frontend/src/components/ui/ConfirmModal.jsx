@@ -1,6 +1,6 @@
 import React from "react";
 
-const ConfromModal = ({
+const ConfirmModal = ({
     isOpen,
     onClose,
     onConfirm,
@@ -13,7 +13,7 @@ const ConfromModal = ({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
+        <div className="fixed inset-0 bg-black/60 bg-opacity-40 flex items-center justify-center z-50">
             <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-6">
 
                 {/* Title */}
@@ -45,4 +45,4 @@ const ConfromModal = ({
     );
 };
 
-export default ConfromModal;
+export default ConfirmModal;

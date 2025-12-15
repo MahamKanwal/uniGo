@@ -70,12 +70,13 @@ export const loginUser = async (req, res, next) => {
       name: user.name,
       email: user.email,
       role: user.role,
-      gender: user.gender,
+      gender: user.gender || "male",
       rollNo: user.rollNo,
       phoneNumber: user.phoneNumber,
       address: user.address,
       dob: user.dob,
       cnic: user.cnic,
+      city: user.city,
       guardianContact: user.guardianContact,
       token,
     },
@@ -85,6 +86,7 @@ export const loginUser = async (req, res, next) => {
 export const getAllUsers = async (req, res, next) => {
   try {
     const { role } = req.query;
+    if (!role) return next(createHttpError(400,"Role is required to get users"));
     const users = await userModal
       .find({ role })
       .select("-password -__v")

@@ -18,7 +18,7 @@ const userSchema = new Schema(
       default: "male",
     },
     rollNo: { type: String, unique: true, sparse: true, trim: true },
-    cnic: { type: Number, unique: true, sparse: true },
+    cnic: { type: String, unique: true, sparse: true ,trim: true},
     phoneNumber: { type: String, unique: true, trim: true, sparse: true },
     guardianContact: { type: String, unique: true, trim: true, sparse: true },
     address: { type: String },
