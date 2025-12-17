@@ -24,7 +24,7 @@ const InputElement = ({
         onChange={handleChange}
         type={type}
         name={name}
-        handleBlur={handleBlur}
+        onBlur={handleBlur}
         placeholder={`Enter ${fieldName}`}
         className={`mt-1 rounded-lg p-2 w-full border ${
           error

@@ -3,21 +3,18 @@ import { FaUser, FaIdCard, FaCity, FaUserTie } from "react-icons/fa";
 import { MdEmail, MdDateRange, MdLocationOn, MdWc } from "react-icons/md";
 import { IoMdCall } from "react-icons/io";
 import { useParams } from "react-router-dom";
-import {
-  useGetStudentByIdQuery,
-  useUpdateStudentMutation,
-} from "../../features/student/studentApi";
 import { toast } from "react-toastify";
 import FormGenerator from "../../components/formElements/FormGenerator";
 import Drawer from "../../components/ui/Drawer";
+import { useGetUserByIdQuery, useUpdateUserMutation } from "../../features/user/userApi";
 
 const StudentForm = () => {
   const { id } = useParams();
-  const { data } = useGetStudentByIdQuery(id, { skip: !id });
-  const [updateStudent] = useUpdateStudentMutation();
+  const { data } = useGetUserByIdQuery(id, { skip: !id });
+  const [updateUser] = useUpdateUserMutation();
 
   const handleSubmit = async (student) => {
-    await updateStudent({ id, ...student });
+    await updateUser({ id, ...student });
     toast.success("Student updated successfully!");
   };
 
@@ -92,11 +89,12 @@ const StudentForm = () => {
   ];
 
   return (
-    <Drawer title={`${id ? "Update" : "Add"} Student`}>
+    <Drawer title={`${id ? "Update" : ""} Student`}>
       <FormGenerator
+      key={id}
         fields={studentFormFields}
         onSubmit={handleSubmit}
-        defaultValues={data}
+        defaultValues={data?.user}
       />
     </Drawer>
   );

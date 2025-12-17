@@ -17,7 +17,7 @@ const studentApi = api.injectEndpoints({
     }),
 
     getStudentById: builder.query({
-      query: (id) => apiRequest(`/students/${id}`),
+      query: (id) => apiRequest(`/users?role=students/${id}`),
       providesTags: (result, error, id) => [{ type: Students, id }],
     }),
 

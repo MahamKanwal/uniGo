@@ -1,11 +1,22 @@
 import React from 'react'
+import { Outlet } from "react-router-dom";
+import Loader from "../../components/ui/Loader";
+import Error from "../../components/ui/Error";
+import { useGetDriversQuery } from '../../features/driver/driverApi';
+import DriverTable from './DriverTable';
 
 const Drivers = () => {
-  return (
-    <div>
-      Drivers
-    </div>
+ const { data, isLoading, isError, error, refetch } = useGetDriversQuery();
+ 
+   if (isLoading) return <Loader />;
+   if (isError) return <Error message={error.error} onRetry={refetch} />;
+ 
+   return (
+     <div className="mt-4">
+       <DriverTable drivers={data} />
+       <Outlet />
+     </div>
   )
 }
 
-export default Drivers
+export default Drivers;

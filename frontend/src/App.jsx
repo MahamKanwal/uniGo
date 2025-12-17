@@ -7,13 +7,14 @@ import { useAuth } from "./hooks/useAuth";
 import Dashboard from "./pages/dashboard/Dashboard";
 import TopBar from "./components/ui/TopBar";
 import Footer from "./components/layout/Footer"
-import Drivers from "./pages/driver/Drivers";
 import Students from "./pages/student/Students";
 import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import ConfirmModal from "./components/ui/ConfirmModal";
 import { logoutUser } from "./features/user/userSlice";
 import StudentForm from "./pages/student/StudentForm";
+import Drivers from "./pages/driver/Drivers";
+import DriverForm from "./pages/driver/DriverForm";
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -51,7 +52,7 @@ const App = () => {
         <div className="flex-1">
         {isAuthenticated && (<TopBar onLogoutClick={() => setIsLogoutModalOpen(true)}/>)}
 
-          <div className={`flex-1 ${sidebarCollapsed ? "ml-5" : "ml-5"} bg-gray-100`}>
+          <div className={`flex-1 ${sidebarCollapsed && isAuthenticated ? "ml-5" : "" } bg-gray-100`}>
             <Routes>
               <Route path="/:formName" element={<PublicRoute><AuthForm /></PublicRoute>}/>
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}/>
@@ -59,6 +60,10 @@ const App = () => {
               <Route path="/students" element={<ProtectedRoute><Students /></ProtectedRoute>}>
               {/* <Route path="create" element={<StudentForm />} /> */}
               <Route path="edit/:id" element={<StudentForm />} />
+              </Route>
+               <Route path="/drivers" element={<ProtectedRoute><Drivers /></ProtectedRoute>}>
+              {/* <Route path="create" element={<DriverForm />} /> */}
+              <Route path="edit/:id" element={<DriverForm/>} />
               </Route>
           </Routes>
           </div>

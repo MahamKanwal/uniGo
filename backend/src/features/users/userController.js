@@ -9,7 +9,7 @@ import {
 export const registerUser = async (req, res, next) => {
   try {
     const data = req.body;
-
+    console.log(data);
     // 🔹 Step 1: Define required fields dynamically
     const commonFields = ["name", "email", "password", "role", "gender"];
     const studentFields = [
@@ -18,7 +18,8 @@ export const registerUser = async (req, res, next) => {
       "phoneNumber",
       "guardianContact",
       "address",
-      "age"
+      "age",
+      "city",
     ];
     const driverFields = [
       "policeClearance",
@@ -26,7 +27,8 @@ export const registerUser = async (req, res, next) => {
       "cnic",
       "licence",
       "address",
-      "age"
+      "age",
+      "city",
     ];
 
     // 🔹 Step 2: Select required fields based on role
@@ -86,12 +88,24 @@ export const loginUser = async (req, res, next) => {
 export const getAllUsers = async (req, res, next) => {
   try {
     const { role } = req.query;
-    if (!role) return next(createHttpError(400,"Role is required to get users"));
+    if (!role)
+      return next(createHttpError(400, "Role is required to get users"));
     const users = await userModal
       .find({ role })
       .select("-password -__v")
       .lean();
     res.status(200).json({ message: `${role} fetched successfully`, users });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getUserById = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    if (!id) return next(createHttpError(400, "Id is required to get user"));
+    const user = await userModal.findById(id).select("-password -__v").lean();
+    res.status(200).json({ message: `${user} fetched successfully`, user });
   } catch (error) {
     next(error);
   }

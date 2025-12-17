@@ -1,25 +1,25 @@
 import React from "react";
 import { Image, Space, Tag, Button, Table } from "antd";
 import { toast } from "react-toastify";
-import { useDeleteStudentMutation } from "../../features/student/studentApi";
 import { useNavigate } from "react-router-dom";
+import { useDeleteUserMutation } from "../../features/user/userApi";
 
 
 const StudentTable = ({ students }) => {
   const navigate = useNavigate();
-  const [deleteStudent] = useDeleteStudentMutation();
+  const [deleteUser] = useDeleteUserMutation();
    
   const handleDelete = (id) => {
-  deleteStudent(id);
+  deleteUser(id);
   toast.success("Student deleted successfully!");
   };
 
 const studentColumns = [
   {title: "S.No",key: "sno",render: (_, __, index) => index + 1,},
  
-  {title: "Image",dataIndex: "student_image",key: "student_image",render: (img) => (
-  <Image src={img} width={40} height={40}
-    style={{ borderRadius: "50%" }}/>),},
+  // {title: "Image",dataIndex: "student_image",key: "student_image",render: (img) => (
+  // <Image src={img} width={40} height={40}
+  //   style={{ borderRadius: "50%" }}/>),},
  
   {title: "Roll No",dataIndex: "rollNo",key: "rollNo",},
   {title: "Name",dataIndex: "name",key: "name",},

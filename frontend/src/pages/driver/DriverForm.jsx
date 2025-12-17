@@ -1,11 +1,103 @@
-import React from 'react'
+import React from "react";
+import { FaUser, FaIdCard, FaCity, FaShieldAlt, FaCar } from "react-icons/fa";
+import { MdEmail, MdDateRange, MdLocationOn, MdWc } from "react-icons/md";
+import { IoMdCall } from "react-icons/io";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
+import FormGenerator from "../../components/formElements/FormGenerator";
+import Drawer from "../../components/ui/Drawer";;
+import { useGetUserByIdQuery, useUpdateUserMutation } from "../../features/user/userApi";
 
 const DriverForm = () => {
-  return (
-    <div>
-      
-    </div>
-  )
-}
+  const { id } = useParams();
+  const { data } = useGetUserByIdQuery(id, { skip: !id });
 
-export default DriverForm
+  const [updateUser] = useUpdateUserMutation();
+
+  const handleSubmit = async (driver) => {
+    await updateUser({ id, ...driver });
+    toast.success("Driver updated successfully!");
+  };
+
+  const driverFormFields = [
+    {
+      name: "name",
+      icon: <FaUser className="text-blue-500" />,
+      required: true,
+      min: 3,
+    },
+    {
+      name: "email",
+      icon: <MdEmail className="text-green-500" />,
+      type: "email",
+      required: true,
+      pattern: /^\S+@\S+\.\S+$/,
+    },
+    {
+      name: "cnic",
+      icon: <FaIdCard className="text-red-500" />,
+      required: true,
+    },
+    {
+      name: "phoneNumber",
+      icon: <IoMdCall className="text-green-500" />,
+      required: true,
+      min: 11,
+    },
+    {
+      name: "gender",
+      icon: <MdWc className="text-pink-500" />,
+      type: "select",
+      options: ["male", "female"],
+      required: true,
+    },
+    {
+      name: "dob",
+      icon: <MdDateRange className="text-indigo-500" />,
+      type: "date",
+      required: true,
+    },
+    {
+      name: "address",
+      icon: <MdLocationOn className="text-orange-500" />,
+      type: "textarea",
+      required: true,
+    },
+    {
+      name: "city",
+      icon: <FaCity className="text-teal-500" />,
+      type: "select",
+      options: ["karachi", "lahore", "islamabad", "quetta", "peshawar"],
+      required: true,
+    },
+    {
+      name: "licence",
+      icon: <FaCar className="text-purple-500" />,
+      required: true,
+    },
+    {
+      name: "policeClearance",
+      icon: <FaShieldAlt className="text-yellow-500" />,
+      type: "select",
+      options: ["verified", "not verified"],
+      required: true,
+    },
+    { name: "driver_image", type: "image", required: true },
+  ];
+
+  return (
+    <Drawer title={`${id ? "Update" : ""} Driver`}>
+      <FormGenerator
+        key={id}
+        fields={driverFormFields}
+        onSubmit={handleSubmit}
+        defaultValues={data?.user}
+      />
+    </Drawer>
+  );
+};
+
+export default DriverForm;
+
+
+
