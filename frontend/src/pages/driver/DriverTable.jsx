@@ -6,20 +6,15 @@ import { useDeleteUserMutation } from "../../features/user/userApi";
 
 const DriverTable = ({ drivers }) => {
   const navigate =  useNavigate();
-  const [deleteDriver] =  useDeleteUserMutation();
+  const [deleteUser] =  useDeleteUserMutation();
    
   const handleDelete = (id) => {
-  deleteDriver(id);
+deleteUser({ id, role: "driver" });
   toast.success("Driver deleted successfully!");
   };
 
 const driverColumns = [
   {title: "S.No",key: "sno",render: (_, __, index) => index + 1,},
- 
-  // {title: "Image",dataIndex: "driver_image",key: "driver_image",render: (img) => (
-  // <Image src={img} width={40} height={40}
-  //   style={{ borderRadius: "50%" }}/>),},
-
   {title: "Name",dataIndex: "name",key: "name",},
   {title: "Licence Number", dataIndex: "licence", key: "licence"},
   {title: "Email", dataIndex: "email", key: "email",},

@@ -62,12 +62,6 @@ const StudentForm = () => {
       required: true,
     },
     {
-      name: "dob",
-      icon: <MdDateRange className="text-indigo-500" />,
-      type: "date",
-      required: true,
-    },
-    {
       name: "address",
       icon: <MdLocationOn className="text-orange-500" />,
       type: "textarea",

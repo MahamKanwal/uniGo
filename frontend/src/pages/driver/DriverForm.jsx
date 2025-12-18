@@ -11,7 +11,7 @@ import { useGetUserByIdQuery, useUpdateUserMutation } from "../../features/user/
 const DriverForm = () => {
   const { id } = useParams();
   const { data } = useGetUserByIdQuery(id, { skip: !id });
-
+console.log(data?.user);
   const [updateUser] = useUpdateUserMutation();
 
   const handleSubmit = async (driver) => {
@@ -49,12 +49,6 @@ const DriverForm = () => {
       icon: <MdWc className="text-pink-500" />,
       type: "select",
       options: ["male", "female"],
-      required: true,
-    },
-    {
-      name: "dob",
-      icon: <MdDateRange className="text-indigo-500" />,
-      type: "date",
       required: true,
     },
     {

@@ -56,7 +56,7 @@ const FormGenerator = ({ fields, onSubmit, defaultValues }) => {
           handleChange,
           error,
         };
-
+  
         return field.type === "select" ? (
           <SelectElement key={index} {...sharedProps} />
         ) : field.type === "image" ? (

@@ -16,11 +16,6 @@ const StudentTable = ({ students }) => {
 
 const studentColumns = [
   {title: "S.No",key: "sno",render: (_, __, index) => index + 1,},
- 
-  // {title: "Image",dataIndex: "student_image",key: "student_image",render: (img) => (
-  // <Image src={img} width={40} height={40}
-  //   style={{ borderRadius: "50%" }}/>),},
- 
   {title: "Roll No",dataIndex: "rollNo",key: "rollNo",},
   {title: "Name",dataIndex: "name",key: "name",},
   {title: "Email", dataIndex: "email", key: "email",},

@@ -1,4 +1,5 @@
 import {
+  deleteUserById,
   getAllUsers,
   getUserById,
   loginUser,
@@ -12,6 +13,7 @@ userRouter.post("/register", registerUser);
 userRouter.post("/login", loginUser);
 userRouter.get("/", getAllUsers);
 userRouter.get("/:id", getUserById);
+userRouter.delete("/:id", deleteUserById);
 
 export default userRouter;
 
