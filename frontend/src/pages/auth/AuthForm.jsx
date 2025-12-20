@@ -55,7 +55,6 @@ const signupSchema = Yup.object({
     )
     .required(),
   role: Yup.string().required(),
-  gender: Yup.string(),
   rollNo: Yup.string()
     .trim()
     .matches(/^\d{2}\/[A-Z]{2,3}\/2k\d{2}$/i, "Roll No must be like 00/IT/2k25")
@@ -63,7 +62,6 @@ const signupSchema = Yup.object({
       is: "student",
       then: (s) => s.required("Roll No is required"),
     }),
-
   phoneNumber: Yup.string()
     .matches(/^[0-9+\-\s]+$/)
     .required()
@@ -98,8 +96,13 @@ const signupSchema = Yup.object({
       is: "admin",
       then: (s) => s.notRequired(),
     }),
-
-  address: Yup.string()
+ address: Yup.string()
+    .required()
+    .when("role", {
+      is: "admin",
+      then: (s) => s.notRequired(),
+    }),
+    gender: Yup.string()
     .required()
     .when("role", {
       is: "admin",

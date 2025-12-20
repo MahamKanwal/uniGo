@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-export const tags = { Users: "Users", Students: "Students", Drivers: "Drivers"};
+export const tags = { Users: "Users", Students: "Students", Drivers: "Drivers", Buses: "Buses"};
 const api = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({

@@ -17,7 +17,13 @@ const userSchema = new Schema(
       enum: ["male", "female", "other"],
       default: "male",
     },
-    city: { type: String, required: true, trim: true },
+    city: {
+      type: String,
+      trim: true,
+      required: function () {
+        return this.role === "student" || this.role === "driver";
+      },
+    },
     rollNo: { type: String, unique: true, sparse: true, trim: true },
     cnic: { type: String, unique: true, sparse: true, trim: true },
     phoneNumber: { type: String, unique: true, trim: true, sparse: true },

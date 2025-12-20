@@ -1,10 +1,12 @@
-import React from "react";
-import { Image, Space, Tag, Button, Table } from "antd";
+import React, {useState} from "react";
+import {  Space, Tag, Button, Table } from "antd";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useDeleteUserMutation } from "../../features/user/userApi";
+import DataView from "../DataView";
 
 const DriverTable = ({ drivers }) => {
+  const [selectedDriver, setSelectedDriver] = useState(null);
   const navigate =  useNavigate();
   const [deleteUser] =  useDeleteUserMutation();
    
@@ -34,7 +36,7 @@ const driverColumns = [
   {title: "City", dataIndex: "city", key: "city",},
   {title: "Action", key: "action", render: (_, record) => (
        <Space>
-        <Button type="link">View</Button>
+        <Button type="link" onClick={() => setSelectedDriver(record)}>View</Button>
         <Button type="link" onClick={() => navigate(`/drivers/edit/${record._id}`)}>Edit</Button>
         <Button type="link" danger onClick={() => handleDelete(record._id)}>
           Delete
@@ -47,6 +49,12 @@ const driverColumns = [
   return (
     <div className="max-w-7xl mx-auto">
       <Table columns={driverColumns} dataSource={drivers.users}  rowKey="_id"/>
+     
+      <DataView
+        data={selectedDriver}
+        visible={!!selectedDriver}
+        onClose={() => setSelectedDriver(null)}
+      />
     </div>
   );
 };

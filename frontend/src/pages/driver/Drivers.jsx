@@ -7,8 +7,8 @@ import DriverTable from './DriverTable';
 
 const Drivers = () => {
  const { data, isLoading, isError, error, refetch } = useGetDriversQuery();
- const {data: drivers} = useGetDriverListQuery();
- console.log(drivers);
+//  const {data: drivers} = useGetDriverListQuery();
+//  console.log(drivers);
    if (isLoading) return <Loader />;
    if (isError) return <Error message={error.error} onRetry={refetch} />;
  

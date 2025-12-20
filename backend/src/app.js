@@ -12,7 +12,7 @@ app.use(cors());
 app.use(express.json());
 // routes
 app.use('/api/users', userRouter);
-app.use('/api/bus', busRouter);
+app.use('/api/buses', busRouter);
 
 app.use(errorHandler);
 

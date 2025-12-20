@@ -11,7 +11,6 @@ import { useGetUserByIdQuery, useUpdateUserMutation } from "../../features/user/
 const DriverForm = () => {
   const { id } = useParams();
   const { data } = useGetUserByIdQuery(id, { skip: !id });
-console.log(data?.user);
   const [updateUser] = useUpdateUserMutation();
 
   const handleSubmit = async (driver) => {

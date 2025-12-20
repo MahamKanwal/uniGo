@@ -15,6 +15,8 @@ import { logoutUser } from "./features/user/userSlice";
 import StudentForm from "./pages/student/StudentForm";
 import Drivers from "./pages/driver/Drivers";
 import DriverForm from "./pages/driver/DriverForm";
+import Buses from "./pages/bus/Buses";
+import BusForm from "./pages/bus/BusForm";
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -58,14 +60,16 @@ const App = () => {
               <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>}/>
               <Route path="/drivers" element={<ProtectedRoute><Drivers /></ProtectedRoute>}/>
               <Route path="/students" element={<ProtectedRoute><Students /></ProtectedRoute>}>
-              {/* <Route path="create" element={<StudentForm />} /> */}
               <Route path="edit/:id" element={<StudentForm />} />
               </Route>
                <Route path="/drivers" element={<ProtectedRoute><Drivers /></ProtectedRoute>}>
-              {/* <Route path="create" element={<DriverForm />} /> */}
               <Route path="edit/:id" element={<DriverForm/>} />
               </Route>
-          </Routes>
+              <Route path="/buses" element={<ProtectedRoute><Buses /></ProtectedRoute>}>
+              <Route path="create" element={<BusForm/>} />
+              <Route path="edit/:id" element={<BusForm/>} />
+             </Route>
+            </Routes>
           </div>
         </div>
       </div>

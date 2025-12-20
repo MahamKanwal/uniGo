@@ -48,7 +48,7 @@ export const registerUser = async (req, res, next) => {
       password: hashedPassword,
     });
 
-    const token = generateToken(newUser._id, newUser.role);
+      const token = generateToken(newUser._id, newUser.role);
 
     res.status(201).json({
       message: "User registered successfully",
