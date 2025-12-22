@@ -31,7 +31,10 @@ import {
 } from "@ant-design/icons";
 import { toast } from "react-toastify";
 import dayjs from "dayjs";
-import { useLoginUserMutation,useRegisterUserMutation} from "../../features/user/userApi";
+import {
+  useLoginUserMutation,
+  useRegisterUserMutation,
+} from "../../features/user/userApi";
 import { useDispatch } from "react-redux";
 import { getUser } from "../../features/user/userSlice";
 const { Title, Text } = Typography;
@@ -78,10 +81,11 @@ const signupSchema = Yup.object({
     }),
   cnic: Yup.string()
     .trim()
-    .matches(/^\d{5}-\d{7}-\d{1}$/, "CNIC must be like 12345-1234567-1").required()
+    .matches(/^\d{5}-\d{7}-\d{1}$/, "CNIC must be like 12345-1234567-1")
+    .required()
     .when("role", {
       is: "admin",
-    then: (s) => s.notRequired(),
+      then: (s) => s.notRequired(),
     }),
   dob: Yup.string()
     .test("dob-valid-age", "Age must be between 16 and 60 years", (val) => {
@@ -96,13 +100,13 @@ const signupSchema = Yup.object({
       is: "admin",
       then: (s) => s.notRequired(),
     }),
- address: Yup.string()
+  address: Yup.string()
     .required()
     .when("role", {
       is: "admin",
       then: (s) => s.notRequired(),
     }),
-    gender: Yup.string()
+  gender: Yup.string()
     .required()
     .when("role", {
       is: "admin",
@@ -114,14 +118,18 @@ const signupSchema = Yup.object({
       is: "driver",
       then: (s) => s.required(),
     }),
-  city: Yup.string().required().when("role", {
-    is: "admin",
-    then: (s) => s.notRequired().nullable(),
-  }),
-  policeClearance: Yup.string().nullable().when("role",{
-    is : "driver",
-    then: (s) => s.required(),
-  }),
+  city: Yup.string()
+    .required()
+    .when("role", {
+      is: "admin",
+      then: (s) => s.notRequired().nullable(),
+    }),
+  policeClearance: Yup.string()
+    .nullable()
+    .when("role", {
+      is: "driver",
+      then: (s) => s.required(),
+    }),
 });
 
 const cities = [
@@ -142,7 +150,7 @@ const AuthForm = () => {
     useRegisterUserMutation();
   const [loginUser, { isLoading: loginLoading }] = useLoginUserMutation();
 
-const initialValues = useMemo(
+  const initialValues = useMemo(
     () =>
       isLogin
         ? { email: "", password: "", remember: false }
@@ -165,13 +173,13 @@ const initialValues = useMemo(
     [isLogin]
   );
 
-const validationSchema = useMemo(
+  const validationSchema = useMemo(
     () => (isLogin ? loginSchema : signupSchema),
     [isLogin]
   );
 
-const onSubmit = async (values, { resetForm }) => { 
-  try {
+  const onSubmit = async (values, { resetForm }) => {
+    try {
       if (!isLogin) {
         if (values.dob) {
           const birth = dayjs(values.dob);
@@ -225,9 +233,9 @@ const onSubmit = async (values, { resetForm }) => {
     }
   };
 
-const formik = useFormik({ initialValues, validationSchema, onSubmit });
-  
-const selectedRole = formik.values.role;
+  const formik = useFormik({ initialValues, validationSchema, onSubmit });
+
+  const selectedRole = formik.values.role;
 
   useEffect(() => {
     formik.resetForm();
@@ -236,9 +244,7 @@ const selectedRole = formik.values.role;
 
   return (
     <div className="min-h-[90.7vh] bg-red-100  flex items-center justify-center">
-      <Card
-        className="w-full max-w-lg shadow-xl rounded-xl border-0"
-      >
+      <Card className="w-full max-w-lg shadow-xl rounded-xl border-0">
         <div className="text-center mb-6">
           <Title level={3}>{isLogin ? "Welcome Back" : "Create Account"}</Title>
           <Text type="secondary" className="text-sm">
@@ -316,25 +322,25 @@ const selectedRole = formik.values.role;
           ) : (
             <Space orientation="vertical" size="small" className="w-full">
               <Row gutter={12}>
-              {/* Full name */}
-              <Col span={8}>
-              <Form.Item
-                validateStatus={
-                  formik.touched.name && formik.errors.name ? "error" : ""
-                }
-                help={formik.touched.name && formik.errors.name}
-              >
-                <Input
-                  prefix={<UserOutlined />}
-                  placeholder="Name"
-                  name="name"
-                  value={formik.values.name}
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  className="rounded-lg h-10"
-                />
-              </Form.Item>
-                  </Col>
+                {/* Full name */}
+                <Col span={8}>
+                  <Form.Item
+                    validateStatus={
+                      formik.touched.name && formik.errors.name ? "error" : ""
+                    }
+                    help={formik.touched.name && formik.errors.name}
+                  >
+                    <Input
+                      prefix={<UserOutlined />}
+                      placeholder="Name"
+                      name="name"
+                      value={formik.values.name}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      className="rounded-lg h-10"
+                    />
+                  </Form.Item>
+                </Col>
 
                 <Col span={8}>
                   <Form.Item
@@ -400,7 +406,7 @@ const selectedRole = formik.values.role;
               {/* Student fields */}
               {selectedRole === "student" && (
                 <>
-                 <Row gutter={12}>
+                  <Row gutter={12}>
                     <Col span={8}>
                       <Form.Item
                         validateStatus={
@@ -449,7 +455,7 @@ const selectedRole = formik.values.role;
                         />
                       </Form.Item>
                     </Col>
-                       <Col span={8}>
+                    <Col span={8}>
                       <Form.Item
                         validateStatus={
                           formik.touched.cnic && formik.errors.cnic
@@ -544,27 +550,27 @@ const selectedRole = formik.values.role;
                     </Col>
                   </Row>
                   <Row gutter={12}>
-              <Col span={12}>
-                  <Form.Item
-                    validateStatus={
-                      formik.touched.address && formik.errors.address
-                        ? "error"
-                        : ""
-                    }
-                    help={formik.touched.address && formik.errors.address}
-                  >
-                    <Input
-                      prefix={<HomeOutlined />}
-                      placeholder="Address"
-                      name="address"
-                      value={formik.values.address}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      className="rounded-lg h-10"
-                    />
-                  </Form.Item>
-                      </Col>
-                  <Col span={12}>
+                    <Col span={12}>
+                      <Form.Item
+                        validateStatus={
+                          formik.touched.address && formik.errors.address
+                            ? "error"
+                            : ""
+                        }
+                        help={formik.touched.address && formik.errors.address}
+                      >
+                        <Input
+                          prefix={<HomeOutlined />}
+                          placeholder="Address"
+                          name="address"
+                          value={formik.values.address}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          className="rounded-lg h-10"
+                        />
+                      </Form.Item>
+                    </Col>
+                    <Col span={12}>
                       <Form.Item
                         validateStatus={
                           formik.touched.rollNo && formik.errors.rollNo
@@ -585,7 +591,7 @@ const selectedRole = formik.values.role;
                       </Form.Item>
                     </Col>
                   </Row>
-               </>
+                </>
               )}
 
               {/* Driver fields */}
@@ -617,7 +623,7 @@ const selectedRole = formik.values.role;
                         />
                       </Form.Item>
                     </Col>
-              <Col span={8}>
+                    <Col span={8}>
                       <Form.Item
                         validateStatus={
                           formik.touched.policeClearance &&
@@ -644,7 +650,7 @@ const selectedRole = formik.values.role;
                       </Form.Item>
                     </Col>
                     <Col span={8}>
-                       <Form.Item
+                      <Form.Item
                         validateStatus={
                           formik.touched.cnic && formik.errors.cnic
                             ? "error"
@@ -663,8 +669,8 @@ const selectedRole = formik.values.role;
                         />
                       </Form.Item>
                     </Col>
-                    </Row>
-                     <Row gutter={12}>
+                  </Row>
+                  <Row gutter={12}>
                     <Col span={8}>
                       <Form.Item
                         validateStatus={
@@ -692,7 +698,7 @@ const selectedRole = formik.values.role;
                       </Form.Item>
                     </Col>
                     <Col span={8}>
-                    <Form.Item
+                      <Form.Item
                         validateStatus={
                           formik.touched.phoneNumber &&
                           formik.errors.phoneNumber
@@ -736,9 +742,9 @@ const selectedRole = formik.values.role;
                         </Select>
                       </Form.Item>
                     </Col>
-                    </Row>
-                    <Row gutter={12}>
-                          <Col span={12}>
+                  </Row>
+                  <Row gutter={12}>
+                    <Col span={12}>
                       <Form.Item
                         validateStatus={
                           formik.touched.city && formik.errors.city
@@ -762,43 +768,41 @@ const selectedRole = formik.values.role;
                         </Select>
                       </Form.Item>
                     </Col>
-             <Col span={12}>
-                  <Form.Item
-                    validateStatus={
-                      formik.touched.address && formik.errors.address
-                      ? "error"
-                      : ""
-                    }
-                    help={formik.touched.address && formik.errors.address}
-                    >
-                    <Input
-                      prefix={<HomeOutlined />}
-                      placeholder="Address"
-                      name="address"
-                      value={formik.values.address}
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      className="rounded-lg h-10"
-                      />
-                  </Form.Item>
-                      </Col>
-                </Row>
+                    <Col span={12}>
+                      <Form.Item
+                        validateStatus={
+                          formik.touched.address && formik.errors.address
+                            ? "error"
+                            : ""
+                        }
+                        help={formik.touched.address && formik.errors.address}
+                      >
+                        <Input
+                          prefix={<HomeOutlined />}
+                          placeholder="Address"
+                          name="address"
+                          value={formik.values.address}
+                          onChange={formik.handleChange}
+                          onBlur={formik.handleBlur}
+                          className="rounded-lg h-10"
+                        />
+                      </Form.Item>
+                    </Col>
+                  </Row>
                 </>
               )}
             </Space>
           )}
 
-  
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={isLogin ? loginLoading : registerLoading}
-              block
-              className="h-10 rounded-lg bg-linear-to-r from-blue-600 to-purple-600 border-0 font-medium my-3"
-            >
-              {isLogin ? "Login" : "Create Account"}
-            </Button>
-       
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={isLogin ? loginLoading : registerLoading}
+            block
+            className="h-10 rounded-lg bg-linear-to-r from-blue-600 to-purple-600 border-0 font-medium my-3"
+          >
+            {isLogin ? "Login" : "Create Account"}
+          </Button>
 
           <div className="text-center">
             <NavLink to={isLogin ? "/signup" : "/login"}>
@@ -814,6 +818,3 @@ const selectedRole = formik.values.role;
 };
 
 export default AuthForm;
-
-
- 

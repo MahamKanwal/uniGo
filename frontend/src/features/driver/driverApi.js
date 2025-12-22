@@ -5,7 +5,6 @@ const { Drivers } = tags;
 
 const driverApi = api.injectEndpoints({
   endpoints: (builder) => ({
-
     /* ======================
        GET ALL DRIVERS
     ====================== */
@@ -55,8 +54,7 @@ const driverApi = api.injectEndpoints({
        UPDATE DRIVER
     ====================== */
     updateDriver: builder.mutation({
-      query: ({ id, ...data }) =>
-        apiRequest(`/drivers/${id}`, "PUT", data),
+      query: ({ id, ...data }) => apiRequest(`/drivers/${id}`, "PUT", data),
       invalidatesTags: (result, error, { id }) => [
         { type: Drivers, id },
         { type: Drivers, id: "LIST" },
@@ -67,14 +65,12 @@ const driverApi = api.injectEndpoints({
        DELETE DRIVER
     ====================== */
     deleteDriver: builder.mutation({
-      query: (id) =>
-        apiRequest(`/drivers/${id}`, "DELETE"),
+      query: (id) => apiRequest(`/drivers/${id}`, "DELETE"),
       invalidatesTags: (result, error, id) => [
         { type: Drivers, id },
         { type: Drivers, id: "LIST" },
       ],
     }),
-
   }),
 });
 

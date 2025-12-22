@@ -28,15 +28,14 @@ export const createBus = async (req, res, next) => {
 export const getAllBuses = async (req, res, next) => {
   try {
     // populate only required driver field
-    const buses = await Bus.find()
-      .populate("driverId", "name");
+    const buses = await Bus.find().populate("driverId", "name");
 
     const result = buses.map((bus) => ({
       _id: bus._id,
       busNumber: bus.busNumber,
       status: bus.status,
       driverId: bus.driverId?._id || null,
-      
+
       // only driver name (NO driverId column)
       driverName: bus.driverId?.name || null,
 
@@ -55,15 +54,13 @@ export const getAllBuses = async (req, res, next) => {
 ========================= */
 export const getBusById = async (req, res, next) => {
   try {
-    const bus = await Bus.findById(req.params.id)
-      .populate("driverId", "name");
+    const bus = await Bus.findById(req.params.id).populate("driverId", "name");
 
     if (!bus) {
       return res.status(404).json({ message: "Bus not found" });
     }
 
     const response = {
-
       _id: bus._id,
       busNumber: bus.busNumber,
       status: bus.status,
@@ -84,11 +81,10 @@ export const getBusById = async (req, res, next) => {
 ========================= */
 export const updateBus = async (req, res, next) => {
   try {
-    const updatedBus = await Bus.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true, runValidators: true }
-    ).populate("driverId", "name");
+    const updatedBus = await Bus.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    }).populate("driverId", "name");
 
     if (!updatedBus) {
       return res.status(404).json({ message: "Bus not found" });

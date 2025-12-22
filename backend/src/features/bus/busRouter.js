@@ -4,7 +4,7 @@ import {
   getAllBuses,
   getBusById,
   updateBus,
-  deleteBus
+  deleteBus,
 } from "./busController.js";
 
 const router = express.Router();

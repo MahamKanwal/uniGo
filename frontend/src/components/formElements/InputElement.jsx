@@ -38,4 +38,3 @@ const InputElement = ({
 };
 
 export default InputElement;
-

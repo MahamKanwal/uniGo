@@ -1,18 +1,18 @@
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux";
 
 const useStore = (slice) => {
- const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
- if (!slice) return;
+  if (!slice) return;
 
-if (Array.isArray(slice)) {
+  if (Array.isArray(slice)) {
     const state = {};
     slice.forEach((s) => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        state[s] = useSelector((state) => state[s]);
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      state[s] = useSelector((state) => state[s]);
     });
     state.dispatch = dispatch;
     return state;
-}
-}
+  }
+};
 export default useStore;

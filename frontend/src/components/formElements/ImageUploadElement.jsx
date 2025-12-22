@@ -62,4 +62,3 @@ const ImageUploadElement = ({ name, value, label, handleChange, error }) => {
 };
 
 export default ImageUploadElement;
-

@@ -48,7 +48,7 @@ export const registerUser = async (req, res, next) => {
       password: hashedPassword,
     });
 
-      const token = generateToken(newUser._id, newUser.role);
+    const token = generateToken(newUser._id, newUser.role);
 
     res.status(201).json({
       message: "User registered successfully",
@@ -74,8 +74,7 @@ export const loginUser = async (req, res, next) => {
       return next(createHttpError(400, "Email and password are required"));
 
     const user = await userModel.findOne({ email });
-    if (!user)
-      return next(createHttpError(401, "Invalid email or password"));
+    if (!user) return next(createHttpError(401, "Invalid email or password"));
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch)
@@ -111,20 +110,19 @@ export const loginUser = async (req, res, next) => {
 ========================= */
 export const getAllUsers = async (req, res, next) => {
   try {
-    const { role , list} = req.query;
-  
-    if (!role)
-      return next(createHttpError(400, "Role is required"));
+    const { role, list } = req.query;
 
-const users = await userModel
-       .find({ role })
-       .select("-password -__v")
-       .lean();
-    let  listOfUsers;
-       if (list) {
-         listOfUsers = users.map(user =>({name: user.name, value: user._id})); 
-       }
-res.status(200).json({
+    if (!role) return next(createHttpError(400, "Role is required"));
+
+    const users = await userModel
+      .find({ role })
+      .select("-password -__v")
+      .lean();
+    let listOfUsers;
+    if (list) {
+      listOfUsers = users.map((user) => ({ name: user.name, value: user._id }));
+    }
+    res.status(200).json({
       message: `${role} fetched successfully`,
       users: list ? listOfUsers : users,
     });
@@ -140,13 +138,9 @@ export const getUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const user = await userModel
-      .findById(id)
-      .select("-password -__v")
-      .lean();
+    const user = await userModel.findById(id).select("-password -__v").lean();
 
-    if (!user)
-      return next(createHttpError(404, "User not found"));
+    if (!user) return next(createHttpError(404, "User not found"));
 
     res.status(200).json({
       message: "User fetched successfully",
@@ -168,8 +162,7 @@ export const updateUserById = async (req, res, next) => {
       .findByIdAndUpdate(id, req.body, { new: true })
       .select("-password -__v");
 
-    if (!updatedUser)
-      return next(createHttpError(404, "User not found"));
+    if (!updatedUser) return next(createHttpError(404, "User not found"));
 
     res.status(200).json({
       message: "User updated successfully",
@@ -196,5 +189,3 @@ export const deleteUserById = async (req, res, next) => {
     next(error);
   }
 };
-
-

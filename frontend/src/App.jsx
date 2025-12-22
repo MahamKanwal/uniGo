@@ -17,6 +17,8 @@ import Drivers from "./pages/driver/Drivers";
 import DriverForm from "./pages/driver/DriverForm";
 import Buses from "./pages/bus/Buses";
 import BusForm from "./pages/bus/BusForm";
+import Complaints from "./pages/complaint/Complaints";
+import ComplaintForm from "./pages/complaint/ComplaintForm";
 
 const ProtectedRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
@@ -68,6 +70,10 @@ const App = () => {
               <Route path="/buses" element={<ProtectedRoute><Buses /></ProtectedRoute>}>
               <Route path="create" element={<BusForm/>} />
               <Route path="edit/:id" element={<BusForm/>} />
+             </Route>
+               <Route path="/complaints" element={<ProtectedRoute><Complaints /></ProtectedRoute>}>
+              <Route path="create" element={<ComplaintForm/>} />
+              <Route path="edit/:id" element={<ComplaintForm/>} />
              </Route>
             </Routes>
           </div>

@@ -4,7 +4,11 @@ import { MdInfo } from "react-icons/md";
 import { AiOutlineCheckCircle } from "react-icons/ai";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useAddBusMutation, useGetBusByIdQuery, useUpdateBusMutation } from "../../features/bus/BusApi";
+import {
+  useAddBusMutation,
+  useGetBusByIdQuery,
+  useUpdateBusMutation,
+} from "../../features/bus/BusApi";
 import FormGenerator from "../../components/formElements/FormGenerator";
 import Drawer from "../../components/ui/Drawer";
 import { useGetDriverListQuery } from "../../features/driver/driverApi";
@@ -14,9 +18,8 @@ const BusForm = () => {
   const { data } = useGetBusByIdQuery(id, { skip: !id });
   const [addBus] = useAddBusMutation();
   const [updateBus] = useUpdateBusMutation();
-const {data : drivers} = useGetDriverListQuery();
+  const { data: drivers } = useGetDriverListQuery();
 
-console.log(data?.bus);
   const handleSubmit = async (bus) => {
     if (id) {
       await updateBus({ id, ...bus });
@@ -26,36 +29,35 @@ console.log(data?.bus);
       toast.success("Bus created successfully!");
     }
   };
- 
- const busFormFields = [
-  {
-    name: "busNumber",
-    label: "Bus Number",
-    icon: <FaBus className="text-blue-500" />,
-    type: "text",
-    required: true,
-    placeholder: "Enter bus number",
-  },
-  {
-    name: "status",
-    label: "Status",
-    icon: <AiOutlineCheckCircle className="text-green-500" />,
-    type: "select",
-    required: true,
-    options: ["active", "inactive", "maintenance"],
-    placeholder: "Select status",
-  },
-  {
-    name: "driverId",
-    label: "Driver",
-    icon: <MdInfo className="text-purple-500" />,
-    type: "select",
-    required: true,
-    options: drivers?.users,
-    placeholder: "Select driver",
-  },
-];
 
+  const busFormFields = [
+    {
+      name: "busNumber",
+      label: "Bus Number",
+      icon: <FaBus className="text-blue-500" />,
+      type: "text",
+      required: true,
+      placeholder: "Enter bus number",
+    },
+    {
+      name: "status",
+      label: "Status",
+      icon: <AiOutlineCheckCircle className="text-green-500" />,
+      type: "select",
+      required: true,
+      options: ["active", "inactive", "maintenance"],
+      placeholder: "Select status",
+    },
+    {
+      name: "driverId",
+      label: "Driver",
+      icon: <MdInfo className="text-purple-500" />,
+      type: "select",
+      required: true,
+      options: drivers?.users,
+      placeholder: "Select driver",
+    },
+  ];
 
   return (
     <Drawer title={`${id ? "Update" : "Add"} Bus`}>

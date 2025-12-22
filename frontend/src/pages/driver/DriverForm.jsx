@@ -5,8 +5,11 @@ import { IoMdCall } from "react-icons/io";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import FormGenerator from "../../components/formElements/FormGenerator";
-import Drawer from "../../components/ui/Drawer";;
-import { useGetUserByIdQuery, useUpdateUserMutation } from "../../features/user/userApi";
+import Drawer from "../../components/ui/Drawer";
+import {
+  useGetUserByIdQuery,
+  useUpdateUserMutation,
+} from "../../features/user/userApi";
 
 const DriverForm = () => {
   const { id } = useParams();
@@ -91,6 +94,3 @@ const DriverForm = () => {
 };
 
 export default DriverForm;
-
-
-
