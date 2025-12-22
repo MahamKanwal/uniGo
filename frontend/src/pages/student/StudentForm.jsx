@@ -14,7 +14,7 @@ const StudentForm = () => {
   const [updateUser] = useUpdateUserMutation();
 
   const handleSubmit = async (student) => {
-    await updateUser({ id, ...student });
+    await updateUser({ id, ...student }).unwrap();
     toast.success("Student updated successfully!");
   };
 
@@ -43,13 +43,13 @@ const StudentForm = () => {
       required: true,
     },
     {
-      name: "contact_number",
+      name: "phoneNumber",
       icon: <IoMdCall className="text-green-500" />,
       required: true,
       min: 11,
     },
     {
-      name: "guardian_contact",
+      name: "guardianContact",
       icon: <FaUserTie className="text-yellow-500" />,
       required: true,
       min: 11,
@@ -70,16 +70,9 @@ const StudentForm = () => {
       name: "city",
       icon: <FaCity className="text-teal-500" />,
       type: "select",
-      options: [
-        "karachi",
-        "lahore",
-        "islamabad",
-        "quetta",
-        "peshawar",
-        "hyderabad",
-      ],
+      options: ["Karachi", "Lahore", "Islamabad", "Quetta", "Peshawar"],
     },
-    { name: "student_image", type: "image", required: true },
+    { name: "student_image", type: "image" },
   ];
 
   return (

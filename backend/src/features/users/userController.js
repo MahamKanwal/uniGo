@@ -13,7 +13,7 @@ export const registerUser = async (req, res, next) => {
   try {
     const data = req.body;
 
-    const commonFields = ["name", "email", "password", "role", "gender"];
+    const commonFields = ["name", "email", "password", "role"];
 
     const studentFields = [
       "rollNo",

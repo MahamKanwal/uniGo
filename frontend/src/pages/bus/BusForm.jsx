@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { FaBus } from "react-icons/fa";
 import { MdInfo } from "react-icons/md";
 import { AiOutlineCheckCircle } from "react-icons/ai";
@@ -15,11 +15,8 @@ const BusForm = () => {
   const [addBus] = useAddBusMutation();
   const [updateBus] = useUpdateBusMutation();
 const {data : drivers} = useGetDriverListQuery();
-console.log(drivers);
-// const driverOptions = driver.map((driver) => ({
-//   label: driver.name,
-//   value: driver._id,
-// }));
+
+console.log(data?.bus);
   const handleSubmit = async (bus) => {
     if (id) {
       await updateBus({ id, ...bus });
@@ -59,12 +56,13 @@ console.log(drivers);
   },
 ];
 
+
   return (
     <Drawer title={`${id ? "Update" : "Add"} Bus`}>
       <FormGenerator
         fields={busFormFields}
         onSubmit={handleSubmit}
-        defaultValues={data}
+        defaultValues={data?.bus}
       />
     </Drawer>
   );

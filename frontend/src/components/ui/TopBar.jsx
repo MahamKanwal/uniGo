@@ -6,14 +6,13 @@ import { useLocation } from "react-router-dom";
 const TopBar = ({onLogoutClick}) => {
 const { pathname } = useLocation();
 const name = pathname.split("/")[1];
-const titlePage = name.charAt(0).toUpperCase()+name.slice(1);
 
 
   return (
     <div className="w-full h-18 bg-linear-to-r from-gray-900 to-gray-800 text-white px-6 flex items-center justify-between shadow-lg">
       <div className="flex items-center space-x-2">
-        <span className="text-2xl font-bold bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent duration-300 transition-all">
-       {titlePage}
+        <span className="text-2xl font-bold bg-linear-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent duration-300 transition-all capitalize">
+       {name}
         </span>
       </div>
 

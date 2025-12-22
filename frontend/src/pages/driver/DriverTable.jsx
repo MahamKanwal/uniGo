@@ -4,15 +4,19 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useDeleteUserMutation } from "../../features/user/userApi";
 import DataView from "../DataView";
+import ConfirmModal from "../../components/ui/ConfirmModal";
 
 const DriverTable = ({ drivers }) => {
   const [selectedDriver, setSelectedDriver] = useState(null);
+  const [deleteModalOpen, setDeleteModalOpen] =  useState(null);
   const navigate =  useNavigate();
+  
   const [deleteUser] =  useDeleteUserMutation();
    
-  const handleDelete = (id) => {
-deleteUser({ id, role: "driver" });
-  toast.success("Driver deleted successfully!");
+ const handleDelete = () => {
+    deleteUser(deleteModalOpen);
+    toast.success("Driver deleted successfully!");
+    setDeleteModalOpen(null);
   };
 
 const driverColumns = [
@@ -38,9 +42,7 @@ const driverColumns = [
        <Space>
         <Button type="link" onClick={() => setSelectedDriver(record)}>View</Button>
         <Button type="link" onClick={() => navigate(`/drivers/edit/${record._id}`)}>Edit</Button>
-        <Button type="link" danger onClick={() => handleDelete(record._id)}>
-          Delete
-        </Button>
+       <Button type="link" danger onClick={() => setDeleteModalOpen(record._id)}>Delete</Button>
       </Space>
     ),
   },
@@ -55,7 +57,12 @@ const driverColumns = [
         visible={!!selectedDriver}
         onClose={() => setSelectedDriver(null)}
       />
+
+        <ConfirmModal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(null)} 
+             onConfirm={handleDelete} title="Delete" message="Are you sure you want to delete?" confirmText="Delete"
+              cancelText="Cancel"/>
     </div>
+    
   );
 };
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { FaUser, FaIdCard, FaCity, FaShieldAlt, FaCar } from "react-icons/fa";
-import { MdEmail, MdDateRange, MdLocationOn, MdWc } from "react-icons/md";
+import { MdEmail, MdLocationOn, MdWc } from "react-icons/md";
 import { IoMdCall } from "react-icons/io";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -14,7 +14,7 @@ const DriverForm = () => {
   const [updateUser] = useUpdateUserMutation();
 
   const handleSubmit = async (driver) => {
-    await updateUser({ id, ...driver });
+    await updateUser({ id, ...driver }).unwrap();
     toast.success("Driver updated successfully!");
   };
 
@@ -60,7 +60,7 @@ const DriverForm = () => {
       name: "city",
       icon: <FaCity className="text-teal-500" />,
       type: "select",
-      options: ["karachi", "lahore", "islamabad", "quetta", "peshawar"],
+      options: ["Karachi", "Lahore", "Islamabad", "Quetta", "Peshawar"],
       required: true,
     },
     {
@@ -75,7 +75,7 @@ const DriverForm = () => {
       options: ["verified", "not verified"],
       required: true,
     },
-    { name: "driver_image", type: "image", required: true },
+    { name: "driver_image", type: "image" },
   ];
 
   return (

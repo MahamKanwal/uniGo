@@ -1,16 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Space, Table, Tag } from 'antd'
 import { useNavigate } from 'react-router-dom';
 import { useDeleteBusMutation } from '../../features/bus/BusApi';
+import DataView from '../DataView';
+import ConfirmModal from '../../components/ui/ConfirmModal';
 
 const BusTable = ({buses}) => {
+const [selectedBus, setSelectedBus] = useState(null);
+const [deleteModalOpen, setDeleteModalOpen] =  useState(null);
   const navigate = useNavigate();
+
  const [deleteBus] =  useDeleteBusMutation();
    
-  const handleDelete = (id) => {
-deleteBus(id);
-  toast.success("Driver deleted successfully!");
-  };
+  const handleDelete = () => {
+      deleteBus(deleteModalOpen);
+      toast.success("Bus deleted successfully!");
+      setDeleteModalOpen(null);
+    };
 
  const busColumns = [
     {
@@ -43,27 +49,23 @@ deleteBus(id);
     },
     {
       title: "Driver",
-      dataIndex: "driver",
+      dataIndex: "driverName",
       key: "driver",
-      render: (driver) => driver?.name ,
+      // render: (driver) => driverName ,
     },
     {
       title: "Action",
       key: "action",
       render: (_, record) => (
         <Space>
-          <Button type="link">
-            View
-          </Button>
+           <Button type="link" onClick={() => setSelectedBus(record)}>View</Button>
           <Button
             type="link"
             onClick={() => navigate(`/buses/edit/${record._id}`)}
           >
             Edit
           </Button>
-          <Button type="link" danger onClick={() => handleDelete(record._id)}>
-            Delete
-          </Button>
+          <Button type="link" danger onClick={() => setDeleteModalOpen(record._id)}>Delete</Button>
         </Space>
       ),
     },
@@ -71,7 +73,16 @@ deleteBus(id);
 
   return (
     <div>
-         <Table columns={busColumns} dataSource={buses.buses} rowKey="_id" />
+        <Table columns={busColumns} dataSource={buses.buses} rowKey="_id" />
+        <DataView
+        data={selectedBus}
+        visible={!!selectedBus}
+        onClose={() => setSelectedBus(null)}
+      />
+
+        <ConfirmModal isOpen={deleteModalOpen} onClose={() => setDeleteModalOpen(null)} 
+             onConfirm={handleDelete} title="Delete" message="Are you sure you want to delete?" confirmText="Delete"
+              cancelText="Cancel"/>
     </div>
   )
 }

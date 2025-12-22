@@ -10,7 +10,7 @@ const studentApi = api.injectEndpoints({
       providesTags: (result) =>
         result
           ? [
-              ...result.users.map(({ id }) => ({ type: Students, id })),
+              ...result.users.map(({ _id }) => ({ type: Students, id: _id })),
               { type: Students, id: "LIST" },
             ]
           : [{ type: Students, id: "LIST" }],
@@ -28,12 +28,18 @@ const studentApi = api.injectEndpoints({
 
     updateStudent: builder.mutation({
       query: ({ id, ...data }) => apiRequest(`/students/${id}`, "PUT", data),
-      invalidatesTags: (result, error, { id }) => [{ type: Students, id }],
+      invalidatesTags: (result, error, { id }) => [
+        { type: Students, id },
+        { type: Students, id: "LIST" },
+      ],
     }),
 
     deleteStudent: builder.mutation({
       query: (id) => apiRequest(`/students/${id}`, "DELETE"),
-      invalidatesTags: (result, error, id) => [{ type: Students, id }],
+      invalidatesTags: (result, error, id) => [
+        { type: Students, id },
+        { type: Students, id: "LIST" },
+      ],
     }),
   }),
 });
@@ -47,5 +53,3 @@ export const {
 } = studentApi;
 
 export default studentApi;
-
-

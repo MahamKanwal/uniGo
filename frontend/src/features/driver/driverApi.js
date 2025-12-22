@@ -35,7 +35,7 @@ const driverApi = api.injectEndpoints({
        GET DRIVER BY ID
     ====================== */
     getDriverById: builder.query({
-      query: (id) => apiRequest(`/users/${id}`),
+      query: (id) => apiRequest(`/drivers/${id}`),
       providesTags: (result, error, id) => [{ type: Drivers, id }],
     }),
 
@@ -44,7 +44,7 @@ const driverApi = api.injectEndpoints({
     ====================== */
     addDriver: builder.mutation({
       query: (newDriver) =>
-        apiRequest("/users/register", "POST", {
+        apiRequest("/drivers", "POST", {
           ...newDriver,
           role: "driver",
         }),
@@ -56,7 +56,7 @@ const driverApi = api.injectEndpoints({
     ====================== */
     updateDriver: builder.mutation({
       query: ({ id, ...data }) =>
-        apiRequest(`/users/${id}`, "PUT", data),
+        apiRequest(`/drivers/${id}`, "PUT", data),
       invalidatesTags: (result, error, { id }) => [
         { type: Drivers, id },
         { type: Drivers, id: "LIST" },
@@ -68,7 +68,7 @@ const driverApi = api.injectEndpoints({
     ====================== */
     deleteDriver: builder.mutation({
       query: (id) =>
-        apiRequest(`/users/${id}`, "DELETE"),
+        apiRequest(`/drivers/${id}`, "DELETE"),
       invalidatesTags: (result, error, id) => [
         { type: Drivers, id },
         { type: Drivers, id: "LIST" },

@@ -8,14 +8,9 @@ import Error from "../../components/ui/Error";
 
 const Buses = () => {
 const {data, isLoading, isError , error , refetch} = useGetBusesQuery();
-console.log(data);
-  if (isLoading) {
-    return <Loader />;
-  }
 
-  if (isError) {
-    return <Error message={error.error} onRetry={refetch} />;
-  }
+if (isLoading) return <Loader />;
+if (isError) return <Error message={error.error} onRetry={refetch} />;
 
   return (
     <div className="mt-4">

@@ -7,13 +7,13 @@ import DataView from "../DataView";
 import ConfirmModal from "../../components/ui/ConfirmModal";
 
 const StudentTable = ({ students }) => {
-  const navigate = useNavigate();
-  const [selectedStudent, setSelectedStudent] = useState(null);
-  const [deleteModalOpen, setDeleteModalOpen] =  useState(null);
+const navigate = useNavigate();
+const [selectedStudent, setSelectedStudent] = useState(null);
+const [deleteModalOpen, setDeleteModalOpen] =  useState(null);
 
-   const [deleteUser] = useDeleteUserMutation();
+const [deleteUser] = useDeleteUserMutation();
 
-  const handleDelete = () => {
+const handleDelete = () => {
     deleteUser(deleteModalOpen);
     toast.success("Student deleted successfully!");
     setDeleteModalOpen(null);
@@ -58,7 +58,7 @@ const StudentTable = ({ students }) => {
         columns={studentColumns}
         dataSource={students.users}
         rowKey="_id"
-        scroll={{ x: "max-content" }} // Horizontal scroll on small screens
+        scroll={{ x: "max-content" }} 
         pagination={{ pageSize: 10 }}
       />
 

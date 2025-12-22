@@ -6,12 +6,19 @@ const { Buses } = tags;
 const busApi = api.injectEndpoints({
   endpoints: (builder) => ({
   getBuses: builder.query({
-  query: () => '/buses',
+  query: () => apiRequest("/buses"),
   providesTags: (result) =>
-    result
-    ? [...result?.buses.map(({ id }) => ({ type: Buses, id })), { type: Buses, id: "LIST" }]
-    : [{ type: Buses, id: "LIST" }]
+    result?.buses
+      ? [
+          ...result.buses.map((bus) => ({
+            type: Buses,
+            id: bus._id, 
+          })),
+          { type: Buses, id: "LIST" },
+        ]
+      : [{ type: Buses, id: "LIST" }],
 }),
+
 
 
     getBusById: builder.query({
@@ -24,18 +31,22 @@ const busApi = api.injectEndpoints({
       invalidatesTags: [{ type: Buses, id: "LIST" }],
     }),
 
-    updateBus: builder.mutation({
-      query: ({ id, ...data }) => apiRequest(`/buses/${id}`, "PUT", data),
-      invalidatesTags: (result, error, { id }) => [{ type: Buses, id }],
-    }),
+  updateBus: builder.mutation({
+  query: ({ id, ...data }) => apiRequest(`/buses/${id}`, "PUT", data),
+  invalidatesTags: (result, error, { id }) => [
+    { type: Buses, id },
+    { type: Buses, id: "LIST" },
+  ],
+}),
 
-    deleteBus: builder.mutation({
-      query: (id) => apiRequest(`/buses/${id}`, "DELETE"),
-      invalidatesTags: (result, error, id) => [
-        { type: Buses, id },
-        { type: Buses, id: "LIST" },
-      ],
-    }),
+  deleteBus: builder.mutation({
+  query: (id) => apiRequest(`/buses/${id}`, "DELETE"),
+  invalidatesTags: (result, error, id) => [
+    { type: Buses, id },        
+    { type: Buses, id: "LIST" } 
+  ],
+}),
+
   }),
 });
 
