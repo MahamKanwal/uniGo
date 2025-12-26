@@ -25,11 +25,7 @@ const driverApi = api.injectEndpoints({
     /* ======================
        DRIVER DROPDOWN LIST
     ====================== */
-    getDriverList: builder.query({
-      query: () => apiRequest("/users?role=driver&list=true"),
-      providesTags: [{ type: Drivers, id: "LIST" }],
-    }),
-
+   
     /* ======================
        GET DRIVER BY ID
     ====================== */
@@ -76,7 +72,6 @@ const driverApi = api.injectEndpoints({
 
 export const {
   useGetDriversQuery,
-  useGetDriverListQuery,
   useGetDriverByIdQuery,
   useAddDriverMutation,
   useUpdateDriverMutation,

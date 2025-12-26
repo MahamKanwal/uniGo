@@ -4,7 +4,7 @@ const complaintSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // agar user se link karna ho
+      ref: "User",
       required: true,
     },
     title: {
@@ -19,12 +19,13 @@ const complaintSchema = new mongoose.Schema(
     },
     status: {
       type: String,
+      required: true,
       enum: ["pending", "in-progress", "resolved"],
-      default: "pending",
     },
     assignedTo: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User", // agar admin ko assign karna ho
+      required: true,
+      ref: "User", 
     },
   },
   { timestamps: true }

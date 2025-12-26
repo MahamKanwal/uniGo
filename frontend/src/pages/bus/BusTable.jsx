@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useDeleteBusMutation } from "../../features/bus/BusApi";
 import DataView from "../DataView";
 import ConfirmModal from "../../components/ui/ConfirmModal";
+import { toast } from "react-toastify";
 
 const BusTable = ({ buses }) => {
   const [selectedBus, setSelectedBus] = useState(null);

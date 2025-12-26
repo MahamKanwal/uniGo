@@ -11,14 +11,14 @@ import {
 } from "../../features/bus/BusApi";
 import FormGenerator from "../../components/formElements/FormGenerator";
 import Drawer from "../../components/ui/Drawer";
-import { useGetDriverListQuery } from "../../features/driver/driverApi";
-
+import { useGetUserListQuery } from "../../features/user/userApi";
+;
 const BusForm = () => {
   const { id } = useParams();
   const { data } = useGetBusByIdQuery(id, { skip: !id });
   const [addBus] = useAddBusMutation();
   const [updateBus] = useUpdateBusMutation();
-  const { data: drivers } = useGetDriverListQuery();
+  const { data: drivers } = useGetUserListQuery({ role: "driver" });
 
   const handleSubmit = async (bus) => {
     if (id) {

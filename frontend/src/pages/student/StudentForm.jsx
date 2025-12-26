@@ -1,12 +1,15 @@
 import React from "react";
 import { FaUser, FaIdCard, FaCity, FaUserTie } from "react-icons/fa";
-import { MdEmail, MdDateRange, MdLocationOn, MdWc } from "react-icons/md";
+import { MdEmail, MdLocationOn, MdWc } from "react-icons/md";
 import { IoMdCall } from "react-icons/io";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import FormGenerator from "../../components/formElements/FormGenerator";
 import Drawer from "../../components/ui/Drawer";
-import { useGetUserByIdQuery, useUpdateUserMutation } from "../../features/user/userApi";
+import {
+  useGetUserByIdQuery,
+  useUpdateUserMutation,
+} from "../../features/user/userApi";
 
 const StudentForm = () => {
   const { id } = useParams();
@@ -78,7 +81,7 @@ const StudentForm = () => {
   return (
     <Drawer title={`${id ? "Update" : ""} Student`}>
       <FormGenerator
-      key={id}
+        key={id}
         fields={studentFormFields}
         onSubmit={handleSubmit}
         defaultValues={data?.user}

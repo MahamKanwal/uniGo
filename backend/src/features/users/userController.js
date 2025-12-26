@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import createHttpError from "http-errors";
 import userModel from "./userModel.js";
 import bcrypt from "bcrypt";
@@ -138,7 +139,15 @@ export const getUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const user = await userModel.findById(id).select("-password -__v").lean();
+    // Validate if id exists and is a valid MongoDB ObjectId
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
+      return next(createHttpError(400, "Invalid or missing user ID"));
+    }
+
+    const user = await userModel
+      .findById(id)
+      .select("-password -__v")
+      .lean();
 
     if (!user) return next(createHttpError(404, "User not found"));
 
@@ -150,6 +159,7 @@ export const getUserById = async (req, res, next) => {
     next(error);
   }
 };
+
 
 /* =========================
    UPDATE USER

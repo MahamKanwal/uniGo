@@ -22,6 +22,12 @@ const userApi = api.injectEndpoints({
           : [{ type: Users, id: `LIST-${role}` }],
     }),
 
+
+getUserList: builder.query({
+      query: ({role}) => apiRequest(`/users?role=${role}&list=true`),
+      providesTags: [{ type: Users, id: "LIST" }],
+    }),
+
     /* ======================
        GET USER BY ID
     ====================== */
@@ -63,10 +69,12 @@ const userApi = api.injectEndpoints({
         { type: Users, id: `LIST-${role}` },
       ],
     }),
+    
   }),
 });
 
 export const {
+  useGetUserListQuery,
   useGetUsersQuery,
   useGetUserByIdQuery,
   useRegisterUserMutation,

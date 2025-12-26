@@ -5,7 +5,7 @@ import {
   getComplaintById,
   updateComplaint,
   deleteComplaint,
-} from "../models/complaintController.js";
+} from "./complaintController.js";
 
 const router = express.Router();
 

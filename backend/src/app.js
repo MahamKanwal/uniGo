@@ -4,6 +4,7 @@ import cors from "cors";
 import errorHandler from "./middlewares/globalErrorHandler.js";
 import userRouter from "./features/users/userRouter.js";
 import busRouter from "./features/bus/busRouter.js";
+import complaintRouter from "./features/complaints/complaintRouter.js"
 // Initialize express app
 const app = express();
 // Enable CORS(cross-origin resource sharing)
@@ -13,7 +14,7 @@ app.use(express.json());
 // routes
 app.use("/api/users", userRouter);
 app.use("/api/buses", busRouter);
-
+app.use("/api/complaints", complaintRouter);
 app.use(errorHandler);
 
 export default app;
