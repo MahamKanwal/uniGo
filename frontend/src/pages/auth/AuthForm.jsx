@@ -215,6 +215,7 @@ const AuthForm = () => {
         };
 
         const payload = await registerUser(userData).unwrap();
+        console.log(payload)
         dispatch(getUser(payload.user));
         toast.success(payload.message || "Registration successful!");
       } else {
