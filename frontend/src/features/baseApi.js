@@ -15,7 +15,8 @@ const api = createApi({
     prepareHeaders: (headers, { getState }) => {
       headers.set("Content-Type", "application/json"); // 👈 REQUIRED
 
-      const token = getState().auth?.token;
+      const token = getState().user?.token;
+      // console.log(token);
       if (token) {
         headers.set("authorization", `Bearer ${token}`);
       }

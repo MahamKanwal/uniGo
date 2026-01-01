@@ -40,11 +40,25 @@ const ComplaintTable = ({ complaints }) => {
         </Tag>
       ),
     },
+      {
+      title: "Complaint By",
+      dataIndex: "complainerName",
+      key: "complainerName",
+    },
+     {
+      title: "Complainer Role",
+      dataIndex: "complainerRole",
+      key: "complainerRole",
+    },
     {
       title: "Assigned To",
-      dataIndex: ["assignedTo", "name"], 
+      dataIndex: "assignedName",
       key: "assignedTo",
-      render: (_, record) => record.assignedTo?.name,
+    },
+     {
+      title: "Assigned Role",
+      dataIndex: "assignedRole",
+      key: "assignedRole",
     },
     {
       title: "Action",
@@ -59,11 +73,12 @@ const ComplaintTable = ({ complaints }) => {
     },
   ];
 
+  // console.log("Complaints data:", complaints?.complaints);
   return (
     <div>
       <Table
         columns={compColumns}
-        dataSource={complaints.complaints}
+        dataSource={complaints?.complaints}
         rowKey="_id"
       />
       <DataView

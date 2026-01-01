@@ -7,7 +7,8 @@ const DataView = ({ data, visible, onClose }) => {
   if (!data) return null;
 
   const { pathname } = useLocation();
-  const name = pathname.split("/")[1];
+  const path = pathname.split("/")[1];
+  const name = path == "buses" ? "bus" : path.slice(0, -1);
 
   const formatValue = (key, value) => {
     const cond = key == "createdAt" || key == "updatedAt";

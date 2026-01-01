@@ -21,18 +21,19 @@ const ComplaintForm = () => {
   const [role, setRole] = useState("driver");
   const [formFields, setFormFields] = useState([]);
   const [formValues, setFormValues] = useState({});
-
   // Set role and form values from data when editing
   useEffect(() => {
     if (complaintData?.complaint) {
-      const { role, title, description, status, assignedTo } = complaintData.complaint;
-      setRole(role);
+      const { assignedRole, title, description, status, assignedId } = complaintData.complaint;
+      // console.log(complaintData?.complaint);
+      console.log("Assigned Role:", assignedRole);
+      setRole(assignedRole);
       setFormValues({
         title: title || "",
         description: description || "",
         status: status || "pending",
-        role: role || "driver",
-        assignedTo: assignedTo || "",
+        role: assignedRole || "driver",
+        assignedTo: assignedId || "",
       });
     } else {
       setFormValues({
@@ -50,6 +51,7 @@ const ComplaintForm = () => {
 
   // Handle form submission
   const handleSubmit = async (complaint) => {
+    console.log("Submitting complaint:", complaint);
     try {
       if (id) {
         await updateComplaint({ id, ...complaint }).unwrap();
@@ -79,12 +81,12 @@ const ComplaintForm = () => {
   // Update form fields whenever role or usersData changes
   useEffect(() => {
     // Map usersData to options for select
-    const assignedToOptions = usersData?.users?.map(user => ({
-      name: user.name,
-      value: user.id,
-      label: user.name
-    })) || [];
-
+  //   const assignedToOptions = usersData?.users?.map(user => ({
+  //     name: user.name,
+  //     value: user.id,
+  //     label: user.name
+  //   })) || [];
+  //  console.log(usersData?.users);
     const statusOptions = ["pending", "in-progress", "resolved"].map(option => ({
       name: option,
       value: option,
@@ -129,7 +131,7 @@ const ComplaintForm = () => {
         label: `Select ${role}`,
         icon: <MdInfo className="text-purple-500" />,
         type: "select",
-        options: assignedToOptions,
+        options: usersData?.users,
         placeholder: `Select ${role}`,
         required: true,
       },
